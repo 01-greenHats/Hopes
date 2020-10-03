@@ -8,10 +8,14 @@ const donors = require('./lib/donors/donors-collection');
 const users = require('./lib/users/users-collection');
 const posts = require('./lib/posts/posts-collection');
 const payments = require('./lib/payments/payments-collection');
-
+const multiFunctions = require('./lib/multiFunctions');
+const signUpMidd = require('./middleware/signUpMidd');
+const basicAuth = require('./middleware/basicAuth');
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
+router.post('/api/v1/:model/signin',basicAuth, handleSignIn);
+router.post('/api/v1/:model/signup',signUpMidd, handleSignUp);
 router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
@@ -97,6 +101,26 @@ function handleDeleteItem(req, res, next) {
     req.model.delete(req.params.id).then(result => {
         res.json(result);
     }).catch(next);
+}
+/**
+ * 
+ */
+function handleSignUp(req, res, next) {
+    req.model.create(req.body).then(result => {
+        res.json(req.jwt);
+    }).catch(next);
+}
+function handleSignIn(req,res) {
+    if(req.basicAuth) {
+        // add the token as cookie 
+        res.cookie('token', req.basicAuth.token);
+        // add a header
+        res.set('token', req.basicAuth.token);
+        // send json object with token and user record
+        res.status(200).json(req.basicAuth);
+    } else {
+        res.status(403).send("invaled login");
+    }
 }
 
 module.exports = router;
