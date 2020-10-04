@@ -10,7 +10,7 @@ class MultiFunctions {
         return jwt.sign({
             name: userObj.name,
             nationalNo: userObj.nationalNo || '123'
-        }, process.env.TOKEN_SECRET, {expiresIn: '900s'});
+        }, process.env.TOKEN_SECRET, {expiresIn: '4500s'});
     }
     async hash(string){
         let hashedPass = await bcrypt.hash(string, 5);
@@ -21,6 +21,39 @@ class MultiFunctions {
         console.log('????????valid?????????');
         let valid = await bcrypt.compare(pass,hasedPass)
         return valid ? valid :  null;
+    }
+
+    async authoraizeUser  (token) {
+        if (! token) {
+            return Promise.reject();
+        }
+        let jwtVarification = jwt.verify(token, process.env.TOKEN_SECRET, (err, decode) => {
+            if (err) {
+                console.log('myError 1 : ', err);
+                return false;
+            }
+            return decode
+        });
+        console.log("jwtVarification",jwtVarification)
+        console.log("jwtVarification.exp",jwtVarification.exp)
+        if (jwtVarification.exp) {
+            var dateNow = new Date();
+            if(jwtVarification.exp<dateNow.getTime()/1000){
+                console.log('the session time is out');
+                return false;
+            }
+            }
+            console.log('> >>>>>>>> jwtVarification ', jwtVarification);
+     if (jwtVarification) {
+         return jwtVarification
+                // let user = await req.module.findOne({name: jwtVarification.name})
+                // console.log('>>>>>>>>>>>>>>',{user: user});
+                // return user ? Promise.resolve({user: jwtVarification}).catch(error => {
+                //     console.log(error);
+                // }) : false;
+            }
+            console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+            return false;
     }
 };
 

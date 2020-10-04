@@ -8,10 +8,10 @@ const donors = require('./lib/donors/donors-collection');
 const users = require('./lib/users/users-collection');
 const posts = require('./lib/posts/posts-collection');
 const payments = require('./lib/payments/payments-collection');
-const multiFunctions = require('./lib/multiFunctions');
 const signUpMidd = require('./middleware/signUpMidd');
 const basicAuth = require('./middleware/basicAuth');
 const oauth = require('./middleware/oauth');
+const barerAuth =require('./middleware/barerAuth');
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
@@ -27,6 +27,8 @@ router.delete('/api/v1/:model/:id', handleDeleteItem);
 router.post('/api/v1/:model/comments/:postId', handleAddComment);
 router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment);
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
+// add posts routes ///api/v1/user/posts/add or //api/v1/donor/posts/add 
+router.post('/api/v1/:model/posts/add', barerAuth,handleAddPostItem); 
 
 
 
@@ -89,6 +91,20 @@ function handlePostItem(req, res, next) {
         res.json(result);
     }).catch(next);
 }
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+
+function handleAddPostItem(req, res, next) {
+    posts.create(req.body).then(result => {
+        res.json(result);
+    }).catch(next);
+}
+
+
 /**
  * 
  * @param {request} req 
