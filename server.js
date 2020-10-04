@@ -36,7 +36,7 @@ app.use(error500);
 module.exports = {
     server: app,
     start: port => {
-        let PORT = port || process.env.PORT || 4001;
+        let PORT = port || process.env.PORT || 3030;
         app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
     },
 };
