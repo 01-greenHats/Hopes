@@ -19,6 +19,7 @@ class Model {
         }
 
     getOne(obj) {
+        // console.log('----------',this.schema);
         return this.schema.findOne(obj);
     }
   
