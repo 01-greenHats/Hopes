@@ -11,11 +11,15 @@ const payments = require('./lib/payments/payments-collection');
 const multiFunctions = require('./lib/multiFunctions');
 const signUpMidd = require('./middleware/signUpMidd');
 const basicAuth = require('./middleware/basicAuth');
+const oauth = require('./middleware/oauth');
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
 router.post('/api/v1/:model/signin',basicAuth, handleSignIn);
 router.post('/api/v1/:model/signup',signUpMidd, handleSignUp);
+
+router.get('/api/v1/donor/oauth',oauth, handleSignIn);
+
 router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
@@ -108,6 +112,7 @@ function handleDeleteItem(req, res, next) {
         res.json(result);
     }).catch(next);
 }
+
 /**
  * 
  */
