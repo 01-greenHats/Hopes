@@ -1,8 +1,9 @@
 'use strict';
 
 const express = require('express');
-const cors = require('cors'); 
-const morgan = require('morgan'); 
+const cors = require('cors');
+const morgan = require('morgan');
+require('dotenv').config();
 
 
 const routes = require('./auth/router');
@@ -22,20 +23,20 @@ app.use(routes);
 
 
 
-app.get('/bad', (req, res)=> {
-  throw new Error('bad Request .... ');
-});  
+app.get('/bad', (req, res) => {
+    throw new Error('bad Request .... ');
+});
 
 
-app.use('*', error404); 
+app.use('*', error404);
 
-app.use(error500); 
+app.use(error500);
 
 
 module.exports = {
-  server: app, 
-  start: port => {
-    let PORT = port || process.env.port || 4001;
-    app.listen(PORT, ()=> console.log(`Listening on port ${PORT}`));
-  },
+    server: app,
+    start: port => {
+        let PORT = port || process.env.PORT || 4001;
+        app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+    },
 };
