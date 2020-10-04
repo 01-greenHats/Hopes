@@ -15,6 +15,12 @@ router.post('/api/v1/:model', handlePostItem);
 router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
+//posts routes to handle comments
+router.post('/api/v1/:model/comments/:postId', handleAddComment);
+router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment);
+router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
+
+
 
 
 router.param('model', getModel);
@@ -99,4 +105,62 @@ function handleDeleteItem(req, res, next) {
     }).catch(next);
 }
 
+
+function handleAddComment(req, res) {
+    console.log('handleAddComment called');
+    let newCommntsArray = [];
+    let postId = req.params.postId;
+    console.log({ postId });
+
+    let newComment = req.body;
+
+    req.model.get(postId).then(posts => {
+        newCommntsArray = posts[0].comments;
+        newCommntsArray.push(newComment);
+        req.model.update(postId, { comments: newCommntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
+
+
+function handleDeleteComment(req, res) {
+    // console.log('params id>>>', req.params.id);
+    let commntsArray = [];
+    let postId = req.params.postId;
+    let commentId = req.params.commentId;
+    console.log('postId>>>', postId);
+    console.log('commentId>>>', commentId);
+    req.model.get(postId).then(posts => {
+        commntsArray = posts[0].comments;
+        commntsArray.forEach((comment, index) => {
+            console.log('coment>>>', comment._id);
+            if (comment._id == commentId) {
+                commntsArray.splice(index, 1);
+            }
+        });
+        req.model.update(postId, { comments: commntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
+
+function handleEditComment(req, res) {
+    // console.log('params id>>>', req.params.id);
+    let commntsArray = [];
+    let postId = req.params.postId;
+    let commentId = req.params.commentId;
+    let newComment = req.body;
+    req.model.get(postId).then(posts => {
+        commntsArray = posts[0].comments;
+        commntsArray.forEach((comment, index) => {
+            if (comment._id == commentId) {
+                comment.content = newComment.content;
+            }
+        });
+        req.model.update(postId, { comments: commntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
 module.exports = router;
