@@ -15,7 +15,7 @@ const users = mongoose.Schema({
   healthDesc: {type: String, required: true},
   income: {type: Number, required: true},
   expencsies: {type: Number, required: true},
-
+  isActive: {type: Number, required: true}
 });
 
 module.exports = mongoose.model('users', users);
