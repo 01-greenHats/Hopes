@@ -13,9 +13,9 @@ module.exports = (req, res, next) => {
             multiFunctions.authoraizeUser(token).then(isUserAuthorize => {
 
                 if (isUserAuthorize) {
-                    console.log('isUserAuthorize>>>>>>>>>', isUserAuthorize.name);
+                    // console.log('isUserAuthorize>>>>>>>>>', isUserAuthorize.name);
                     req.model.getOne({ name: isUserAuthorize.name }).then(user => {
-                        console.log('>>>>>>>>>>>>>>', { user: user });
+                        // console.log('>>>>>>>>>>>>>>', { user: user });
                         if (user) {
                             next();
                             return;
