@@ -1,5 +1,5 @@
 // check if the user/donor are signed in befor adding posts 
-
+'use strict';
 const multiFunctions = require('../lib/multiFunctions')
 module.exports = (req, res, next) => {
     try {

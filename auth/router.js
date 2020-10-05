@@ -12,6 +12,7 @@ const signUpMidd = require('./middleware/signUpMidd');
 const basicAuth = require('./middleware/basicAuth');
 const oauth = require('./middleware/oauth');
 const barerAuth =require('./middleware/barerAuth');
+const deleteAuth = require('./middleware/deleteAuth');
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
@@ -29,6 +30,19 @@ router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment)
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
 // add posts routes ///api/v1/user/posts/add or //api/v1/donor/posts/add 
 router.post('/api/v1/:model/posts/add', barerAuth,handleAddPostItem); 
+
+
+// delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
+// send in the req the bearer token after signin  ////:id is the id of the post
+router.delete('/api/v1/:model/posts/delete/:id', barerAuth,deleteAuth,handleDeleteposts)
+
+//delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
+// send in the req the bearer token after signin //:id is the id of the post
+router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth,deleteAuth,handleDeleteSComment)
+
+// edit comments
+// router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
+
 
 
 
@@ -128,6 +142,20 @@ function handleDeleteItem(req, res, next) {
         res.json(result);
     }).catch(next);
 }
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+function handleDeleteposts(req, res, next) {
+    console.log('param id: ', req.params.id);
+    posts.delete(req.params.id).then(result => {
+        res.json(result);
+    }).catch(next);
+}
+
+
 
 /**
  * 
@@ -190,6 +218,28 @@ function handleDeleteComment(req, res) {
     })
 }
 
+
+function handleDeleteSComment(req, res) {
+    // console.log('params id>>>', req.params.id);
+    let commntsArray = [];
+    let id = req.params.id;
+    let commentId = req.params.commentId;
+    console.log('id>>>', id);
+    console.log('commentId>>>', commentId);
+    posts.get(id).then(mypost => {
+        commntsArray = mypost[0].comments;
+        commntsArray.forEach((comment, index) => {
+            console.log('coment>>>', comment._id);
+            if (comment._id == commentId) {
+                commntsArray.splice(index, 1);
+            }
+        });
+        posts.update(id, { comments: commntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
+
 function handleEditComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -204,6 +254,27 @@ function handleEditComment(req, res) {
             }
         });
         req.model.update(postId, { comments: commntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
+
+function handleEditSComment(req, res) {
+    // console.log('params id>>>', req.params.id);
+    let commntsArray = [];
+    let postId = req.params.id;
+    let commentId = req.params.commentId;
+    let newComment = req.body;
+    posts.get(postId).then(myposts => {
+        commntsArray = myposts[0].comments;
+        commntsArray.forEach((comment, index) => {
+            console.log("thiiiiiis issssss the commmmetsss",comment)
+            if (comment._id == commentId) {
+                comment.content = newComment.content;
+                console.log('no problem ')
+            }
+        });
+        posts.update(postId, { comments: commntsArray }).then(result => {
             res.json(result);
         })
     })
