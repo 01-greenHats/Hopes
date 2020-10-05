@@ -43,7 +43,7 @@ class MultiFunctions {
                 return false;
             }
             }
-            console.log('> >>>>>>>> jwtVarification ', jwtVarification);
+            // console.log('> >>>>>>>> jwtVarification ', jwtVarification);
      if (jwtVarification) {
         console.log("heyyyyyyyjwtVarification",jwtVarification)
          return jwtVarification

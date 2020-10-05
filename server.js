@@ -29,73 +29,79 @@ paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': 'AVmdpJ9EtbqxI1Q-HrmNOCCutM4GMJvnatIMILpbrOexOjcYvonivsy3-BGhdQVyNgy36FI4Zr8IyS56',
     'client_secret': 'EElBrN_xNQDE6PjBt5tN3FiLChIu20aUtKUg5MjeNqKVZw-PI0ADR8Mt3ATUVgCVyTahnHyp_7C8jGOb',
-    'headers' : {
+    'headers': {
         'custom': 'header'
     }
 });
 // ======================================= handeling payments functions :
 function handlePayment(req, res, next) {
-    console.log("called");
+    console.log("handlePayment called");
     const create_payment_json = {
+
         "intent": "sale",
         "payer": {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://return.url",
-            "cancel_url": "http://cancel.url"
+            "return_url": "http://localhost:3000/success",
+            "cancel_url": "http://localhost:3000/cancel"
         },
         "transactions": [{
             "item_list": {
                 "items": [{
-                    "name": "item",
-                    "sku": "item",
-                    "price": "1.00",
+                    "name": "Red Sox Hat",
+                    "sku": "001",
+                    "price": "25.00",
                     "currency": "USD",
                     "quantity": 1
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": "1.00"
+                "total": "25.00"
             },
-            "description": "This is the payment description."
+            "description": "Hat for the best team ever"
         }]
     };
-    paypal.payment.create(create_payment_json, function (error, payment) {
-       try {
-        console.log("Create Payment Response");
-        console.log(payment);
-       } catch (error) {
-           console.log(error);
-       }
-            res.send("test");
+    paypal.payment.create(create_payment_json, function(error, payment) {
+        console.log('payment create called');
+        try {
+            for (let i = 0; i < payment.links.length; i++) {
+                if (payment.links[i].rel === 'approval_url') {
+                    res.redirect(payment.links[i].href);
+                }
+            }
+        } catch (error) {
+            console.log("create payment error>>>", error);
+        }
+        // res.send("test");
     });
 }
-function handleSuccess (req, res, next) {
+
+function handleSuccess(req, res, next) {
     console.log('success called');
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     const execute_payment_json = {
-      "payer_id": payerId,
-      "transactions": [{
-          "amount": {
-              "currency": "USD",
-              "total": "25.00"
-          }
-      }]
+        "payer_id": payerId,
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": "25.00"
+            }
+        }]
     };
-    paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
         console.log('execute called');
-      if (error) {
-          console.log(error.response);
-          throw error;
-      } else {
-          console.log(JSON.stringify(payment));
-          res.send('Success');
-      }
-  });
-  }
+        if (error) {
+            console.log(error.response);
+            throw error;
+        } else {
+            console.log(JSON.stringify(payment));
+            res.send('Success');
+        }
+    });
+}
 //-----------------------------------------------------------
 app.use(cors());
 app.use(morgan('dev'));
