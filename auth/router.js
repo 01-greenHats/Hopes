@@ -12,6 +12,7 @@ const signUpMidd = require('./middleware/signUpMidd');
 const basicAuth = require('./middleware/basicAuth');
 const oauth = require('./middleware/oauth');
 const barerAuth =require('./middleware/barerAuth');
+const { post } = require('superagent');
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
@@ -24,6 +25,7 @@ router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
 //posts routes to handle comments
+// /api/v1/posts/comments/:postId
 router.post('/api/v1/:model/comments/:postId', handleAddComment);
 router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment);
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
@@ -99,6 +101,7 @@ function handlePostItem(req, res, next) {
  */
 
 function handleAddPostItem(req, res, next) {
+    // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
     }).catch(next);
@@ -143,6 +146,7 @@ function handleSignIn(req,res) {
         res.cookie('token', req.basicAuth.token);
         // add a header
         res.set('token', req.basicAuth.token);
+        // console.log('this is token in res : ',res.token);
         // send json object with token and user record
         res.status(200).json(req.basicAuth);
     } else {
@@ -158,8 +162,8 @@ function handleAddComment(req, res) {
     console.log({ postId });
 
     let newComment = req.body;
-
     req.model.get(postId).then(posts => {
+        console.log('/**/*/**/POST :',posts);
         newCommntsArray = posts[0].comments;
         newCommntsArray.push(newComment);
         req.model.update(postId, { comments: newCommntsArray }).then(result => {
