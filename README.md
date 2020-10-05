@@ -6,10 +6,12 @@
 - [Wireframes](#Wireframes)
 - [User Stories](#User-Stories)
 - [Domain Modeling](#Domain-Modeling)
+- [Setup](#Setup)
 - [UML](#UML)
-- [Contributing](#contributing)
+- [Tests](#Tests)
+- [Contribution](#Contribution)
 - [License](#license)
-- [Contact](#contact)
+
 
 # About the Project
 
@@ -80,7 +82,7 @@ the Idea of the project is to link the people in need with the people that wants
 
 ### POST
 
-#### users/donors/admins signup
+- users/donors/admins signup
 
 `http://localhost:3030/api/v1/donors/signup`
 
@@ -88,7 +90,7 @@ the Idea of the project is to link the people in need with the people that wants
 
 `http://localhost:3030/api/v1/admins/signup`
 
-#### users/donors/admins signin
+- users/donors/admins signin
 
 `http://localhost:3030/api/v1/donors/signin`
 
@@ -96,13 +98,13 @@ the Idea of the project is to link the people in need with the people that wants
 
 `http://localhost:3030/api/v1/admins/signin`
 
-#### add posts
+- add posts
 
 `http://localhost:3030/api/v1/users/posts/add`
 
 `http://localhost:3030/api/v1/donors/posts/add`
 
-#### add comments
+- add comments
 
 `http://localhost:3030/api/v1/users/comments/:postId`
 
@@ -111,7 +113,7 @@ the Idea of the project is to link the people in need with the people that wants
 
 ### GET
 
-#### view all posts/donors/users/admins
+- view all posts/donors/users/admins
 
 `http://localhost:3030/api/v1/posts`
 
@@ -123,14 +125,14 @@ the Idea of the project is to link the people in need with the people that wants
 
 ### Patch
 
-#### edit comments
+- edit comments
 
 `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
 
 
 ### Delete
 
-#### delete comments 
+- delete comments 
 
 `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
 
@@ -141,7 +143,7 @@ the Idea of the project is to link the people in need with the people that wants
 - [tests report]()
 
 
-# Contribution :
+# Contribution
 
 - [Ahmad Shela](https://github.com/AhmedShela)
 - [Roukia Salahi](https://github.com/roukiaSalahi)
