@@ -5,8 +5,13 @@ const cors = require('cors');
 const morgan = require('morgan');
 const ejs = require('ejs');
 const paypal = require('paypal-rest-sdk');
+const sendMail = require('./8-send-email/send-email.js')
 require('dotenv').config();
+// var bodyParser = require('body-parser')
 
+
+let inNeedEmail = 'hertani86@gmail.com';
+let amount = "150.00";
 
 const routes = require('./auth/router');
 const error404 = require('./middleware/404.js');
@@ -16,6 +21,13 @@ const app = express();
 
 
 app.use(express.json());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+
+// parse application/json
+// app.use(bodyParser.json())
 
 app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.render('index'));
@@ -36,6 +48,13 @@ paypal.configure({
 // ======================================= handeling payments functions :
 function handlePayment(req, res, next) {
     console.log("handlePayment called");
+
+    amount = req.body.amount;
+    inNeedEmail = req.body.email;
+    console.log({ amount });
+    console.log({ inNeedEmail });
+
+
     const create_payment_json = {
 
         "intent": "sale",
@@ -51,14 +70,14 @@ function handlePayment(req, res, next) {
                 "items": [{
                     "name": "Red Sox Hat",
                     "sku": "001",
-                    "price": "25.00",
+                    "price": amount,
                     "currency": "USD",
                     "quantity": 1
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": "25.00"
+                "total": amount
             },
             "description": "Hat for the best team ever"
         }]
@@ -87,7 +106,7 @@ function handleSuccess(req, res, next) {
         "transactions": [{
             "amount": {
                 "currency": "USD",
-                "total": "25.00"
+                "total": amount
             }
         }]
     };
@@ -97,6 +116,17 @@ function handleSuccess(req, res, next) {
             console.log(error.response);
             throw error;
         } else {
+            var mailOptions = {
+                from: 'hopegaza12@gmail.com',
+                to: inNeedEmail,
+                subject: 'you hava a donation',
+                text: `you have received a donate
+                 from ${payment.payer.payer_info.first_name} ${payment.payer.payer_info.last_name}, 
+                 with the amount of ${payment.transactions[0].amount.total} ${payment.transactions[0].amount.currency}`
+
+            };
+            sendMail(mailOptions);
+
             console.log(JSON.stringify(payment));
             res.send('Success');
         }

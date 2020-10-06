@@ -1,0 +1,115 @@
+{
+    "id": "PAYID-L56AFDI72M00950D6639684W",
+    "intent": "sale",
+    "state": "approved",
+    "cart": "4EY15706E4177000M",
+    "payer": {
+        "payment_method": "paypal",
+        "status": "VERIFIED",
+        "payer_info": {
+            "email": "sb-yb47mg3377219@personal.example.com",
+            "first_name": "John",
+            "last_name": "Doe",
+            "payer_id": "B4BBRTMG7CTJW",
+            "shipping_address": {
+                "recipient_name": "John Doe",
+                "line1": "Free Trade Zone",
+                "city": "Amman",
+                "state": "JO_zip = 962",
+                "postal_code": "962",
+                "country_code": "JO"
+            },
+            "country_code": "JO"
+        }
+    },
+    "transactions": [{
+        "amount": {
+            "total": "25.00",
+            "currency": "USD",
+            "details": {
+                "subtotal": "25.00",
+                "shipping": "0.00",
+                "insurance": "0.00",
+                "handling_fee": "0.00",
+                "shipping_discount": "0.00",
+                "discount": "0.00"
+            }
+        },
+        "payee": {
+            "merchant_id": "5MNSBA6FP2QF4",
+            "email": "sb-i6vfl3144885@business.example.com"
+        },
+        "description": "Hat for the best team ever",
+        "item_list": {
+            "items": [{
+                "name": "Red Sox Hat",
+                "sku": "001",
+                "price": "25.00",
+                "currency": "USD",
+                "tax": "0.00",
+                "quantity": 1
+            }],
+            "shipping_address": {
+                "recipient_name": "John Doe",
+                "line1": "Free Trade Zone",
+                "city": "Amman",
+                "state": "JO_zip = 962",
+                "postal_code": "962",
+                "country_code": "JO"
+            }
+        },
+        "related_resources": [{
+            "sale": {
+                "id": "21B08992LR413253F",
+                "state": "completed",
+                "amount": {
+                    "total": "25.00",
+                    "currency": "USD",
+                    "details": {
+                        "subtotal": "25.00",
+                        "shipping": "0.00",
+                        "insurance": "0.00",
+                        "handling_fee": "0.00",
+                        "shipping_discount": "0.00",
+                        "discount": "0.00"
+                    }
+                },
+                "payment_mode": "INSTANT_TRANSFER",
+                "protection_eligibility": "ELIGIBLE",
+                "protection_eligibility_type": "ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
+                "transaction_fee": {
+                    "value": "1.53",
+                    "currency": "USD"
+                },
+                "parent_payment": "PAYID-L56AFDI72M00950D6639684W",
+                "create_time": "2020-10-06T05:38:17Z",
+                "update_time": "2020-10-06T05:38:17Z",
+                "links": [{
+                        "href": "https://api.sandbox.paypal.com/v1/payments/sale/21B08992LR413253F",
+                        "rel": "self",
+                        "method": "GET"
+                    },
+                    {
+                        "href": "https://api.sandbox.paypal.com/v1/payments/sale/21B08992LR413253F/refund",
+                        "rel": "refund",
+                        "method": "POST"
+                    },
+                    {
+                        "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L56AFDI72M00950D6639684W",
+                        "rel": "parent_payment",
+                        "method": "GET"
+                    }
+                ]
+            }
+        }]
+    }],
+    "failed_transactions": [],
+    "create_time": "2020-10-06T05:37:16Z",
+    "update_time": "2020-10-06T05:38:17Z",
+    "links": [{
+        "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L56AFDI72M00950D6639684W",
+        "rel": "self",
+        "method": "GET"
+    }],
+    "httpStatusCode": 200
+}

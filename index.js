@@ -15,14 +15,8 @@
   // mongoose.connect(MONGOOSE_URL, mongooseOptions);
 
 
-//   connect to cloud DB
-
-
-
+  //   connect to cloud DB
   const uri = "mongodb+srv://ahmad:hopes2020@cluster0.vagkk.mongodb.net/hopes?retryWrites=true&w=majority";
-
-
-  // const uri = "mongodb + srv: //ahmad:hopes2020@cluster0.vagkk.mongodb.net/hopes?retryWrites=true&w=majority";
   mongoose.connect(uri, {
           useNewUrlParser: true,
           useUnifiedTopology: true
@@ -31,23 +25,5 @@
           console.log('MongoDB Connected…')
       })
       .catch(err => console.log(err))
-
-  const MongoClient = require('mongodb').MongoClient;
-  const uri = "mongodb+srv://ahmad:hopes2020@cluster0.vagkk.mongodb.net/hopes?retryWrites=true&w=majority";
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  client.connect(err => {
-      const collection = client.db("test").collection("devices");
-      // perform actions on the collection object
-      client.close();
-  });
-
-
-
-
-
-
-
-
-
 
   serverModule.start();
