@@ -1,9 +1,7 @@
 'use strict';
-
 const express = require('express');
 const router = express.Router();
 const paypal = require('paypal-rest-sdk');
-
 // schema
 const donors = require('./lib/donors/donors-collection');
 const admin = require('./lib/admin/admin-collection');
@@ -21,9 +19,7 @@ router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
 router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
 router.post('/api/v1/:model/signup', signUpMidd, handleSignUp);
-
 router.get('/api/v1/donor/oauth', oauth, handleSignIn);
-
 router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
@@ -34,39 +30,31 @@ router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment)
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
 // add posts routes ///api/v1/user/posts/add or //api/v1/donor/posts/add 
 router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
-
 // routes to handle payments
 router.post('/pay', handlePayment);
 router.get('/success', handleSuccess);
 router.get('/cancel', (req, res) => res.send('Cancelled'));
 router.get('/pay', getPayments);
-
 // routes to handle admin approvals
-
 // delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
 // send in the req the bearer token after signin  ////:id is the id of the post
 router.delete('/api/v1/:model/posts/delete/:id', barerAuth, deleteAuth, handleDeleteposts)
-
 //delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
 // send in the req the bearer token after signin //:id is the id of the post
 router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, deleteAuth, handleDeleteSComment)
-
 // edit comments
-// router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
+router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
+
+
 
 router.put('/api/v1/:model/user/:id', adminBarer, usersApproval);
-
 function usersApproval(req, res, next) {
     // console.log(req.body);
     users.update(req.params.id, req.body).then(result => {
         res.json(result);
     });
 }
-
-
 router.param('model', getModel);
-
-
 // How will we get the right Model? 
 /**
  * 
@@ -132,7 +120,6 @@ function handlePostItem(req, res, next) {
  * @param {response} res 
  * @param {next} next 
  */
-
 function handleAddPostItem(req, res, next) {
     // console.log('>>',req);
     posts.create(req.body).then(result => {
@@ -174,9 +161,6 @@ function handleDeleteposts(req, res, next) {
         res.json(result);
     }).catch(next);
 }
-
-
-
 /**
  * 
  */
@@ -185,7 +169,6 @@ function handleSignUp(req, res, next) {
         res.json(req.jwt);
     }).catch(next);
 }
-
 function handleSignIn(req, res) {
     if (req.basicAuth) {
         // add the token as cookie 
@@ -199,13 +182,11 @@ function handleSignIn(req, res) {
         res.status(403).send("invaled login");
     }
 }
-
 function handleAddComment(req, res) {
     console.log('handleAddComment called');
     let newCommntsArray = [];
     let postId = req.params.postId;
     console.log({ postId });
-
     let newComment = req.body;
     req.model.get(postId).then(posts => {
         console.log('/**/*/**/POST :', posts);
@@ -216,8 +197,6 @@ function handleAddComment(req, res) {
         })
     })
 }
-
-
 function handleDeleteComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -238,8 +217,6 @@ function handleDeleteComment(req, res) {
         })
     })
 }
-
-
 function handleDeleteSComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -260,7 +237,6 @@ function handleDeleteSComment(req, res) {
         })
     })
 }
-
 function handleEditComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -279,9 +255,7 @@ function handleEditComment(req, res) {
         })
     })
 }
-
 // ======================================= handeling payments functions :
-
 // paypal configuration 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
@@ -291,7 +265,6 @@ paypal.configure({
         'custom': 'header'
     }
 });
-
 async function handlePayment(req, res, next) {
     console.log("handlePayment called");
     const create_payment_json = {
@@ -331,7 +304,6 @@ async function handlePayment(req, res, next) {
         // res.send("test");
     });
 }
-
 async function handleSuccess(req, res, next) {
     console.log('success called');
     const payerId = req.query.PayerID;
@@ -366,7 +338,6 @@ async function handleSuccess(req, res, next) {
         }
     });
 }
-
 function getPayments(req, res, next) {
     payments.get().then(results => {
         console.log(results);
@@ -374,8 +345,6 @@ function getPayments(req, res, next) {
         res.json({ count, results });
     });
 }
-
-
 function handleEditSComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];

@@ -15,7 +15,7 @@
 
 # About the Project
 
-the Idea of the project is to link the people in need with the people that wants to help them
+The Idea of the project is to link the people in need with the people that wants to help them
  
 # Wireframes
 
@@ -87,13 +87,13 @@ the Idea of the project is to link the people in need with the people that wants
 
 # Setup
 
-## installation 
+## Installation 
 
-- open your terminal
+- Open your terminal
 
 - Clone the repo `git clone https://github.com/01-greenHats/Hopes.git`
 
-- write `npm install` to install all the dependencies
+- Write `npm install` to install all the dependencies
 
 ## .env requirements
 
@@ -103,17 +103,17 @@ the Idea of the project is to link the people in need with the people that wants
 - CLIENT_SECRET - y88OeZ6j_oTqHkP7N1fnKZ-G
 - TOKEN_SECRET - donttellanyoneRoqaia
 
-## start the server
+## Start the server
 
-- in your terminal write `node .` to start the local server
+- In your terminal write `node .` to start the local server
 
 ## ReST testing tool
 
-##### postman
+##### Postman
 
 - POST
 
-  - users/donors/admins signup
+  - Users/donors/admins signup
 
         `http://localhost:3030/api/v1/donors/signup`
         
@@ -129,13 +129,13 @@ the Idea of the project is to link the people in need with the people that wants
 
        `http://localhost:3030/api/v1/admins/signin`
 
-  - add posts
+  - Add posts
 
        `http://localhost:3030/api/v1/users/posts/add`
 
        `http://localhost:3030/api/v1/donors/posts/add`
 
-  - add comments
+  - Add comments
 
       `http://localhost:3030/api/v1/users/comments/:postId`
 
@@ -144,7 +144,7 @@ the Idea of the project is to link the people in need with the people that wants
 
 - GET
 
-  - view all posts/donors/users/admins
+  - View all posts/donors/users/admins
 
      `http://localhost:3030/api/v1/posts`
 
@@ -156,21 +156,23 @@ the Idea of the project is to link the people in need with the people that wants
 
 - Patch
 
-  - edit comments
+  - Edit comments
 
-    `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
+    `http://localhost:3030/api/v1/users/comments/edit/:id/:commentId`
+
+    `http://localhost:3030/api/v1/donors/comments/edit/:id/:commentId`
 
 
 - Delete
 
-  - delete comments 
+  - Delete comments 
 
     `http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
 
     `http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
 
 
-  - delete posts
+  - Delete posts
 
     `http://localhost:3030/api/v1/users/posts/delete/:id`
 

@@ -1,5 +1,4 @@
 'use strict';
-
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -9,29 +8,19 @@ const sendMail = require('./8-send-email/send-email.js')
 require('dotenv').config();
 var bodyParser = require('body-parser')
 
-
 let inNeedEmail = 'hertani86@gmail.com';
 let amount = "150.00";
-
 const routes = require('./auth/router');
 const error404 = require('./middleware/404.js');
 const error500 = require('./middleware/500.js');
-
 const app = express();
-
-
 app.use(express.json());
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-
-
 // parse application/json
 // app.use(bodyParser.json())
-
 app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.render('index'));
-
 // routes to handle payments
 app.post('/pay', handlePayment);
 app.get('/success', handleSuccess);
@@ -48,15 +37,11 @@ paypal.configure({
 // ======================================= handeling payments functions :
 function handlePayment(req, res, next) {
     console.log("handlePayment called");
-
     amount = req.body.amount;
     inNeedEmail = req.body.email;
     console.log({ amount });
     console.log({ inNeedEmail });
-
-
     const create_payment_json = {
-
         "intent": "sale",
         "payer": {
             "payment_method": "paypal"
@@ -96,7 +81,6 @@ function handlePayment(req, res, next) {
         // res.send("test");
     });
 }
-
 function handleSuccess(req, res, next) {
     console.log('success called');
     const payerId = req.query.PayerID;
@@ -123,34 +107,22 @@ function handleSuccess(req, res, next) {
                 text: `you have received a donate
                  from ${payment.payer.payer_info.first_name} ${payment.payer.payer_info.last_name}, 
                  with the amount of ${payment.transactions[0].amount.total} ${payment.transactions[0].amount.currency}`
-
             };
             sendMail(mailOptions);
-
             console.log(JSON.stringify(payment));
             res.send('Success');
         }
     });
 }
 //-----------------------------------------------------------
-
 app.use(cors());
 app.use(morgan('dev'));
-
 app.use(routes);
-
-
-
 app.get('/bad', (req, res) => {
     throw new Error('bad Request .... ');
 });
-
-
 app.use('*', error404);
-
 app.use(error500);
-
-
 module.exports = {
     server: app,
     start: port => {
