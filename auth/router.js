@@ -54,11 +54,11 @@ router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, delete
 // edit comments
 // router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
 
-router.put('/api/v1/:model/user/:id',adminBarer, usersApproval);
+router.put('/api/v1/:model/user/:id', adminBarer, usersApproval);
 
 function usersApproval(req, res, next) {
     // console.log(req.body);
-    users.update(req.params.id,req.body).then(result => {
+    users.update(req.params.id, req.body).then(result => {
         res.json(result);
     });
 }
@@ -185,6 +185,7 @@ function handleSignUp(req, res, next) {
         res.json(req.jwt);
     }).catch(next);
 }
+
 function handleSignIn(req, res) {
     if (req.basicAuth) {
         // add the token as cookie 
@@ -299,8 +300,8 @@ async function handlePayment(req, res, next) {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://localhost:3000/success",
-            "cancel_url": "http://localhost:3000/cancel"
+            "return_url": process.env.SUCCESS_URL,
+            "cancel_url": process.env.CANCEL_URL,
         },
         "transactions": [{
             "item_list": {
@@ -316,7 +317,7 @@ async function handlePayment(req, res, next) {
             "description": "Hat for the best team ever"
         }]
     };
-    await paypal.payment.create(create_payment_json, function (error, payment) {
+    await paypal.payment.create(create_payment_json, function(error, payment) {
         console.log('payment create called');
         try {
             for (let i = 0; i < payment.links.length; i++) {
@@ -344,7 +345,7 @@ async function handleSuccess(req, res, next) {
             }
         }]
     };
-    await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    await paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
         console.log('execute called');
         if (error) {
             console.log(error.response);

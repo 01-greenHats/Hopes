@@ -62,8 +62,8 @@ function handlePayment(req, res, next) {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": "http://localhost:3000/success",
-            "cancel_url": "http://localhost:3000/cancel"
+            "return_url": process.env.SUCCESS_URL,
+            "cancel_url": process.env.CANCEL_URL,
         },
         "transactions": [{
             "item_list": {
@@ -154,7 +154,7 @@ app.use(error500);
 module.exports = {
     server: app,
     start: port => {
-        let PORT = port || process.env.PORT || 3030;
+        let PORT = port || process.env.PORT;
         app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
     },
 };
