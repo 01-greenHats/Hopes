@@ -116,9 +116,9 @@ the Idea of the project is to link the people in need with the people that wants
   - users/donors/admins signup
 
         `http://localhost:3030/api/v1/donors/signup`
-
+        
         `http://localhost:3030/api/v1/users/signup`
-
+        
         `http://localhost:3030/api/v1/admins/signup`
 
   - users/donors/admins signin
@@ -165,16 +165,16 @@ the Idea of the project is to link the people in need with the people that wants
 
   - delete comments 
 
-   `http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
+    `http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
 
-   `http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
+    `http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
 
 
   - delete posts
 
-   `http://localhost:3030/api/v1/users/posts/delete/:id`
+    `http://localhost:3030/api/v1/users/posts/delete/:id`
 
-   `http://localhost:3030/api/v1/donors/posts/delete/:id`
+    `http://localhost:3030/api/v1/donors/posts/delete/:id`
 
 
 # Tests
