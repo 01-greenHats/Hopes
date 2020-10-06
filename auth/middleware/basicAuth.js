@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
         if (auth[0] == 'Basic') {
             const [username, password] = base64.decode(auth[1]).split(':');
             req.model.getOne({name: username}).then(userObj => {
-                // console.log('Hi there i aM HERE >>>>>>>>>>>>>>',userObj);
+                console.log('Hi there i aM HERE >>>>>>>>>>>>>>',userObj);
                 multiFunctions.comparePasswprds(password, userObj.password).then(validUser => {
                     // console.log('>>>>>>>validUser : ', validUser);
                     if (!validUser) {

@@ -1,6 +1,7 @@
 // check if the user/donor are signed in befor adding posts 
 'use strict';
 const multiFunctions = require('../lib/multiFunctions')
+const admin = require('../lib/admin/admin-collection');
 module.exports = (req, res, next) => {
     try {
         if (!req.headers.authorization) {
@@ -14,7 +15,7 @@ module.exports = (req, res, next) => {
 
                 if (isUserAuthorize) {
                     // console.log('isUserAuthorize>>>>>>>>>', isUserAuthorize.name);
-                    req.model.getOne({ name: isUserAuthorize.name }).then(user => {
+                    admin.getOne({ name: isUserAuthorize.name }).then(user => {
                         console.log('>>>>>>>>>>>>>>', { user: user });
                         if (user) {
                             next();

@@ -2,24 +2,27 @@
 
 const express = require('express');
 const router = express.Router();
+const paypal = require('paypal-rest-sdk');
 
 // schema
 const donors = require('./lib/donors/donors-collection');
+const admin = require('./lib/admin/admin-collection');
 const users = require('./lib/users/users-collection');
 const posts = require('./lib/posts/posts-collection');
 const payments = require('./lib/payments/payments-collection');
 const signUpMidd = require('./middleware/signUpMidd');
 const basicAuth = require('./middleware/basicAuth');
+const adminBarer = require('./middleware/adminBarer');
 const oauth = require('./middleware/oauth');
-const barerAuth =require('./middleware/barerAuth');
+const barerAuth = require('./middleware/barerAuth');
 const deleteAuth = require('./middleware/deleteAuth');
 const { post } = require('superagent');
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
-router.post('/api/v1/:model/signin',basicAuth, handleSignIn);
-router.post('/api/v1/:model/signup',signUpMidd, handleSignUp);
+router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
+router.post('/api/v1/:model/signup', signUpMidd, handleSignUp);
 
-router.get('/api/v1/donor/oauth',oauth, handleSignIn);
+router.get('/api/v1/donor/oauth', oauth, handleSignIn);
 
 router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
@@ -30,22 +33,35 @@ router.post('/api/v1/:model/comments/:postId', handleAddComment);
 router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment);
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
 // add posts routes ///api/v1/user/posts/add or //api/v1/donor/posts/add 
-router.post('/api/v1/:model/posts/add', barerAuth,handleAddPostItem); 
+router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
 
+// routes to handle payments
+router.post('/pay', handlePayment);
+router.get('/success', handleSuccess);
+router.get('/cancel', (req, res) => res.send('Cancelled'));
+router.get('/pay', getPayments);
+
+// routes to handle admin approvals
 
 // delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
 // send in the req the bearer token after signin  ////:id is the id of the post
-router.delete('/api/v1/:model/posts/delete/:id', barerAuth,deleteAuth,handleDeleteposts)
+router.delete('/api/v1/:model/posts/delete/:id', barerAuth, deleteAuth, handleDeleteposts)
 
 //delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
 // send in the req the bearer token after signin //:id is the id of the post
-router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth,deleteAuth,handleDeleteSComment)
+router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, deleteAuth, handleDeleteSComment)
 
 // edit comments
 // router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
 
+router.put('/api/v1/:model/user/:id',adminBarer, usersApproval);
 
-
+function usersApproval(req, res, next) {
+    // console.log(req.body);
+    users.update(req.params.id,req.body).then(result => {
+        res.json(result);
+    });
+}
 
 
 router.param('model', getModel);
@@ -75,6 +91,10 @@ function getModel(req, res, next) {
             break;
         case 'payments':
             req.model = payments;
+            next();
+            break;
+        case 'admin':
+            req.model = admin;
             next();
             break;
         default:
@@ -119,8 +139,6 @@ function handleAddPostItem(req, res, next) {
         res.json(result);
     }).catch(next);
 }
-
-
 /**
  * 
  * @param {request} req 
@@ -167,8 +185,8 @@ function handleSignUp(req, res, next) {
         res.json(req.jwt);
     }).catch(next);
 }
-function handleSignIn(req,res) {
-    if(req.basicAuth) {
+function handleSignIn(req, res) {
+    if (req.basicAuth) {
         // add the token as cookie 
         res.cookie('token', req.basicAuth.token);
         // add a header
@@ -181,7 +199,6 @@ function handleSignIn(req,res) {
     }
 }
 
-
 function handleAddComment(req, res) {
     console.log('handleAddComment called');
     let newCommntsArray = [];
@@ -190,7 +207,7 @@ function handleAddComment(req, res) {
 
     let newComment = req.body;
     req.model.get(postId).then(posts => {
-        console.log('/**/*/**/POST :',posts);
+        console.log('/**/*/**/POST :', posts);
         newCommntsArray = posts[0].comments;
         newCommntsArray.push(newComment);
         req.model.update(postId, { comments: newCommntsArray }).then(result => {
@@ -262,6 +279,102 @@ function handleEditComment(req, res) {
     })
 }
 
+// ======================================= handeling payments functions :
+
+// paypal configuration 
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': process.env.CLIENT_ID,
+    'client_secret': process.env.CLIENT_SECRET,
+    'headers': {
+        'custom': 'header'
+    }
+});
+
+async function handlePayment(req, res, next) {
+    console.log("handlePayment called");
+    const create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:3000/success",
+            "cancel_url": "http://localhost:3000/cancel"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "price": "25.00",
+                    "currency": "USD",
+                }]
+            },
+            "amount": {
+                "currency": "USD",
+                "total": "25.00"
+            },
+            "description": "Hat for the best team ever"
+        }]
+    };
+    await paypal.payment.create(create_payment_json, function (error, payment) {
+        console.log('payment create called');
+        try {
+            for (let i = 0; i < payment.links.length; i++) {
+                if (payment.links[i].rel === 'approval_url') {
+                    res.redirect(payment.links[i].href);
+                }
+            }
+        } catch (error) {
+            console.log("create payment error>>>", error);
+        }
+        // res.send("test");
+    });
+}
+
+async function handleSuccess(req, res, next) {
+    console.log('success called');
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+    const execute_payment_json = {
+        "payer_id": payerId,
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": "25.00"
+            }
+        }]
+    };
+    await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+        console.log('execute called');
+        if (error) {
+            console.log(error.response);
+            throw error;
+        } else {
+            console.log(JSON.stringify(payment));
+            let obj = {
+                userId: payment.transactions[0].payee.merchant_id,
+                date: payment.create_time,
+                donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
+                amount: payment.transactions[0].amount.total,
+                currency: payment.transactions[0].amount.currency
+            }
+            payments.create(obj).then(result => {
+                console.log(result);
+                res.send('Success');
+            });
+        }
+    });
+}
+
+function getPayments(req, res, next) {
+    payments.get().then(results => {
+        console.log(results);
+        let count = results.length;
+        res.json({ count, results });
+    });
+}
+
+
 function handleEditSComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -271,7 +384,7 @@ function handleEditSComment(req, res) {
     posts.get(postId).then(myposts => {
         commntsArray = myposts[0].comments;
         commntsArray.forEach((comment, index) => {
-            console.log("thiiiiiis issssss the commmmetsss",comment)
+            console.log("thiiiiiis issssss the commmmetsss", comment)
             if (comment._id == commentId) {
                 comment.content = newComment.content;
                 console.log('no problem ')

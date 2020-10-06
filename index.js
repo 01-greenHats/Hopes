@@ -4,15 +4,15 @@
 
   const serverModule = require('./server');
 
-  // const MONGOOSE_URL = process.env.DATABASE_URL || 'mongodb://localhost:27017/hopes'; 
+  const MONGOOSE_URL = process.env.DATABASE_URL || 'mongodb://localhost:27017/hopes'; 
 
-  // const mongooseOptions = {
-  //   useNewUrlParser: true,
-  //   useCreateIndex: true,
-  //   useFindAndModify: false,
-  //   useUnifiedTopology: true,
-  // };
-  // mongoose.connect(MONGOOSE_URL, mongooseOptions);
+  const mongooseOptions = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+  };
+  mongoose.connect(MONGOOSE_URL, mongooseOptions);
 
 
   //   connect to cloud DB
@@ -25,5 +25,6 @@
           console.log('MongoDB Connected…')
       })
       .catch(err => console.log(err))
+
 
   serverModule.start();

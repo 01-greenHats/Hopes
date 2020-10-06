@@ -19,47 +19,60 @@ the Idea of the project is to link the people in need with the people that wants
  
 # Wireframes
 
-## Home page
+## Home Page
 
 ![home](/assets/homePage.jpg)
 
-## user signin
+## User Signin
 
 ![signin](/assets/userSignin.jpg)
 
-## user signup
+## User signup
 
 ![signup](/assets/userSignup.jpg)
 
-## donor signin
+## Donor signin
 
 ![signin](/assets/donorSignin.jpg)
 
-## donor signup
+## Donor Signup
 
 ![signup](/assets/donorSignup.jpg)
+
+## Home Posts
+
+![homePosts](/assets/homePosts.jpg)
+
+## Donations Posts
+
+![donationPosts](/assets/donationPosts.jpg)
+
+
+
 
 
 # User Stories
 
-- as a user/donor I want to sign up
-- as a user/donor I want to sign in
-- as a user/donor I want to sign in using gmail
-- as a user/donor I want to be able to edit my personal data
-- as a user/donor I want to see al the posts
-- as a user/donor I want to publish a post 
-- as a user/donor I want to comment on posts 
-- as a user/donor I want to delete my posts 
-- as a user/donor I want to edit my comments
+- As a user/donor I want to sign up
+- As a user/donor I want to sign in
+- As a user/donor I want to sign in using Gmail
+- As a user/donor I want to be able to edit my account data
+- As a user/donor I want to see al the posts
+- As a user/donor I want to publish a post 
+- As a user/donor I want to comment on posts 
+- As a user/donor I want to delete my posts 
+- As a user/donor I want to edit my comments
 
-- as a user I want to be notefied by email if i recived any donation
-- as a user I want to see my donations history ordered by donation date
+- As a user, I want to be notified by email if I received any donation
+- As a user, I want to see my donations history ordered by donation date
 
-- as a donor I want to see a list of users 
-- as a donor I want to search on the users by national no
-- as a donor I want to see al the users donations history ordered by donation date
-- as a donor I want to be able to see all the users details data
-- as a donor I want to transfare money to the user
+- As a donor, I want to see a list of users 
+- As a donor, I want to search for the users by their national no
+- As a donor, I want to see all the user's donations history ordered by donation date
+- As a donor, I want to be able to see all the users details data
+- As a donor, I want to transfer money to the user
+
+- As an admin, I want to validate the in-need person's account.
 
 
 # Domain Modeling
@@ -85,7 +98,7 @@ the Idea of the project is to link the people in need with the people that wants
 ## .env requirements
 
 - PORT - Port Number
-- DATABASE_URL - mongodb://localhost:27017/hopes
+- DATABAsE_URL - mongodb://localhost:27017/hopes
 - CLIENT_ID - 82394101385-etk6j4a51uavmfnsg83uc7ccsc5nc0if.apps.googleusercontent.com
 - CLIENT_SECRET - y88OeZ6j_oTqHkP7N1fnKZ-G
 - TOKEN_SECRET - donttellanyoneRoqaia
@@ -96,72 +109,72 @@ the Idea of the project is to link the people in need with the people that wants
 
 ## ReST testing tool
 
-- postman
+##### postman
 
 - POST
 
   - users/donors/admins signup
 
-`http://localhost:3030/api/v1/donors/signup`
+        `http://localhost:3030/api/v1/donors/signup`
+        
+        `http://localhost:3030/api/v1/users/signup`
+        
+        `http://localhost:3030/api/v1/admins/signup`
 
-`http://localhost:3030/api/v1/users/signup`
+  - users/donors/admins signin
 
-`http://localhost:3030/api/v1/admins/signup`
+       `http://localhost:3030/api/v1/donors/signin`
 
-- users/donors/admins signin
+       `http://localhost:3030/api/v1/users/signin`
 
-`http://localhost:3030/api/v1/donors/signin`
+       `http://localhost:3030/api/v1/admins/signin`
 
-`http://localhost:3030/api/v1/users/signin`
+  - add posts
 
-`http://localhost:3030/api/v1/admins/signin`
+       `http://localhost:3030/api/v1/users/posts/add`
 
-- add posts
+       `http://localhost:3030/api/v1/donors/posts/add`
 
-`http://localhost:3030/api/v1/users/posts/add`
+  - add comments
 
-`http://localhost:3030/api/v1/donors/posts/add`
+      `http://localhost:3030/api/v1/users/comments/:postId`
 
-- add comments
-
-`http://localhost:3030/api/v1/users/comments/:postId`
-
-`http://localhost:3030/api/v1/donors/comments/:postId`
+      `http://localhost:3030/api/v1/donors/comments/:postId`
 
 
 - GET
 
   - view all posts/donors/users/admins
 
-`http://localhost:3030/api/v1/posts`
+     `http://localhost:3030/api/v1/posts`
 
-`http://localhost:3030/api/v1/users`
+     `http://localhost:3030/api/v1/users`
 
-`http://localhost:3030/api/v1/donors`
+     `http://localhost:3030/api/v1/donors`
 
-`http://localhost:3030/api/v1/admins`
+     `http://localhost:3030/api/v1/admins`
 
 - Patch
 
   - edit comments
 
-`http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
+    `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
 
 
 - Delete
 
   - delete comments 
 
-`http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
+    `http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
 
-`http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
+    `http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
 
 
   - delete posts
 
-`http://localhost:3030/api/v1/users/posts/delete/:id`
+    `http://localhost:3030/api/v1/users/posts/delete/:id`
 
-`http://localhost:3030/api/v1/donors/posts/delete/:id`
+    `http://localhost:3030/api/v1/donors/posts/delete/:id`
 
 
 # Tests
@@ -173,9 +186,9 @@ the Idea of the project is to link the people in need with the people that wants
 # Contribution
 
 - [Ahmad Shela](https://github.com/AhmedShela)
-- [Roukia Salahi](https://github.com/roukiaSalahi)
+- [Roukia Salahi](https://github.com/roukiAsalahi)
 - [Ahmad Hirthani](https://github.com/AhmadHirthani)
-- [HishamAl Naji](https://github.com/HishamAlNaji)
+- [Hisham Al Naji](https://github.com/HishamAlNaji)
 
 
 # License
