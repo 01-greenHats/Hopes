@@ -109,7 +109,12 @@ The Idea of the project is to link the people in need with the people that wants
 
 ## ReST testing tool
 
-##### Postman
+#### SwaggerHub
+
+[link](https://app.swaggerhub.com/apis/roukiaSalahi/hopesProject/0.1)
+
+
+#### Postman
 
 - POST
 
@@ -144,7 +149,7 @@ The Idea of the project is to link the people in need with the people that wants
 
 - GET
 
-  - View all posts/donors/users/admins
+  - View all posts/donors/users/admins/payments
 
      `http://localhost:3030/api/v1/posts`
 
@@ -153,6 +158,8 @@ The Idea of the project is to link the people in need with the people that wants
      `http://localhost:3030/api/v1/donors`
 
      `http://localhost:3030/api/v1/admins`
+
+     `http://localhost:3030/api/v1/payments`
 
 - Patch
 

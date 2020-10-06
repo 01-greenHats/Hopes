@@ -1,0 +1,397 @@
+{
+    "openapi" : "3.0.1",
+    "info" : {
+      "title" : "defaultTitle",
+      "description" : "defaultDescription",
+      "version" : "0.1"
+    },
+    "servers" : [ {
+      "url" : "https://gazahopes.herokuapp.com"
+    } ],
+    "paths" : {
+      "/api/v1/posts/comments/5f7c531e6781440017945dee" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "userid" : {
+                      "type" : "string"
+                    },
+                    "content" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : " {\r\n                    \"userid\": \"user\",\r\n                    \"content\": \"new comment on nabil post\"\r\n                }"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/users/posts/delete/5f7c54606781440017945df1" : {
+        "delete" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/users/comments/edit/5f7c7c1245a4280017bc0276/5f7c7c1245a4280017bc0277" : {
+        "patch" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "userid" : {
+                      "type" : "string"
+                    },
+                    "content" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\r\n                    \"userid\": \"nabil\",\r\n                    \"content\": \"edit comment\"\r\n             \r\n  }"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/posts" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/users/comments/add/5f7c531e6781440017945dee" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "userid" : {
+                      "type" : "string"
+                    },
+                    "content" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "  {\r\n                    \"userid\": \"nabil\",\r\n                    \"content\": \"new comment\"\r\n                }"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/users/posts/delete/5f7c531e6781440017945dee" : {
+        "delete" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/users/signin" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "income" : {
+                      "type" : "integer"
+                    },
+                    "expencsies" : {
+                      "type" : "integer"
+                    },
+                    "nationalNo" : {
+                      "type" : "integer"
+                    },
+                    "socialStatus" : {
+                      "type" : "string"
+                    },
+                    "isActive" : {
+                      "type" : "integer"
+                    },
+                    "password" : {
+                      "type" : "string"
+                    },
+                    "healthStatus" : {
+                      "type" : "string"
+                    },
+                    "dob" : {
+                      "type" : "string"
+                    },
+                    "name" : {
+                      "type" : "string"
+                    },
+                    "healthDesc" : {
+                      "type" : "string"
+                    },
+                    "familyCount" : {
+                      "type" : "integer"
+                    },
+                    "email" : {
+                      "type" : "string"
+                    },
+                    "payPal" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\r\n            \r\n            \"name\": \"nabil\",\r\n            \"password\": \"1234\",\r\n            \"email\": \"user@11\",\r\n            \"nationalNo\": 123,\r\n            \"payPal\": \"paypal\",\r\n            \"dob\": \"2020-01-01T22:00:00.000Z\",\r\n            \"familyCount\": 4,\r\n            \"socialStatus\": \"single\",\r\n            \"income\": 200,\r\n            \"healthStatus\": \"good\",\r\n            \"healthDesc\": \"good\",\r\n            \"expencsies\": 400,\r\n            \"isActive\":1\r\n            \r\n        }"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/payments" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      },
+      "/api/v1/users/posts/add" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "imageUrl" : {
+                      "type" : "string"
+                    },
+                    "title" : {
+                      "type" : "string"
+                    },
+                    "userid" : {
+                      "type" : "string"
+                    },
+                    "content" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\r\n            \"userid\": \"nabil\",\r\n            \"title\": \"new post\",\r\n            \"content\": \"donation content\",\r\n            \"imageUrl\": \"image\"\r\n            \r\n  }"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://gazahopes.herokuapp.com"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://gazahopes.herokuapp.com"
+        } ]
+      }
+    },
+    "components" : {
+      "securitySchemes" : {
+        "basic" : {
+          "type" : "http",
+          "scheme" : "basic"
+        },
+        "oauth2" : {
+          "type" : "oauth2",
+          "flows" : {
+            "implicit" : {
+              "authorizationUrl" : "http://yourauthurl.com",
+              "scopes" : {
+                "scope_name" : "Enter your scopes here"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
