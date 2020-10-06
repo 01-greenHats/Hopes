@@ -19,57 +19,70 @@ the Idea of the project is to link the people in need with the people that wants
  
 # Wireframes
 
-## Home page
+## Home Page
 
-![home](/assets/homePage.jpg)
+![home](/Assets/homePage.jpg)
 
-## user signin
+## User Signin
 
-![signin](/assets/userSignin.jpg)
+![signin](/Assets/userSignin.jpg)
 
-## user signup
+## User signup
 
-![signup](/assets/userSignup.jpg)
+![signup](/Assets/userSignup.jpg)
 
-## donor signin
+## Donor signin
 
-![signin](/assets/donorSignin.jpg)
+![signin](/Assets/donorSignin.jpg)
 
-## donor signup
+## Donor Signup
 
-![signup](/assets/donorSignup.jpg)
+![signup](/Assets/donorSignup.jpg)
+
+## Home Posts
+
+![homePosts](/Assets/homePosts.jpg)
+
+## Donations Posts
+
+![donationPosts](/Assets/donationPosts.jpg)
+
+
+
 
 
 # User Stories
 
-- as a user/donor I want to sign up
-- as a user/donor I want to sign in
-- as a user/donor I want to sign in using gmail
-- as a user/donor I want to be able to edit my personal data
-- as a user/donor I want to see al the posts
-- as a user/donor I want to publish a post 
-- as a user/donor I want to comment on posts 
-- as a user/donor I want to delete my posts 
-- as a user/donor I want to edit my comments
+- As a user/donor I want to sign up
+- As a user/donor I want to sign in
+- As a user/donor I want to sign in using Gmail
+- As a user/donor I want to be able to edit my account data
+- As a user/donor I want to see al the posts
+- As a user/donor I want to publish a post 
+- As a user/donor I want to comment on posts 
+- As a user/donor I want to delete my posts 
+- As a user/donor I want to edit my comments
 
-- as a user I want to be notefied by email if i recived any donation
-- as a user I want to see my donations history ordered by donation date
+- As a user, I want to be notified by email if I received any donation
+- As a user, I want to see my donations history ordered by donation date
 
-- as a donor I want to see a list of users 
-- as a donor I want to search on the users by national no
-- as a donor I want to see al the users donations history ordered by donation date
-- as a donor I want to be able to see all the users details data
-- as a donor I want to transfare money to the user
+- As a donor, I want to see a list of users 
+- As a donor, I want to search for the users by their national no
+- As a donor, I want to see all the user's donations history ordered by donation date
+- As a donor, I want to be able to see all the users details data
+- As a donor, I want to transfer money to the user
+
+- As an admin, I want to validate the in-need person's account.
 
 
 # Domain Modeling
 
-![domain](/assets/workflow.jpg)
+![domain](/Assets/workflow.jpg)
 
 # UML
 [link](https://miro.com/app/board/o9J_kj2Cl6s=/)
 
-![uml](/assets/uml.JPG)
+![uml](/Assets/uml.JPG)
 
 
 # Setup
@@ -85,7 +98,7 @@ the Idea of the project is to link the people in need with the people that wants
 ## .env requirements
 
 - PORT - Port Number
-- DATABASE_URL - mongodb://localhost:27017/hopes
+- DATABAsE_URL - mongodb://localhost:27017/hopes
 - CLIENT_ID - 82394101385-etk6j4a51uavmfnsg83uc7ccsc5nc0if.apps.googleusercontent.com
 - CLIENT_SECRET - y88OeZ6j_oTqHkP7N1fnKZ-G
 - TOKEN_SECRET - donttellanyoneRoqaia
@@ -96,7 +109,7 @@ the Idea of the project is to link the people in need with the people that wants
 
 ## ReST testing tool
 
-- postman
+##### postman
 
 - POST
 
@@ -108,7 +121,7 @@ the Idea of the project is to link the people in need with the people that wants
 
 `http://localhost:3030/api/v1/admins/signup`
 
-- users/donors/admins signin
+  - users/donors/admins signin
 
 `http://localhost:3030/api/v1/donors/signin`
 
@@ -116,13 +129,13 @@ the Idea of the project is to link the people in need with the people that wants
 
 `http://localhost:3030/api/v1/admins/signin`
 
-- add posts
+  - add posts
 
 `http://localhost:3030/api/v1/users/posts/add`
 
 `http://localhost:3030/api/v1/donors/posts/add`
 
-- add comments
+  - add comments
 
 `http://localhost:3030/api/v1/users/comments/:postId`
 
@@ -173,9 +186,9 @@ the Idea of the project is to link the people in need with the people that wants
 # Contribution
 
 - [Ahmad Shela](https://github.com/AhmedShela)
-- [Roukia Salahi](https://github.com/roukiaSalahi)
+- [Roukia Salahi](https://github.com/roukiAsalahi)
 - [Ahmad Hirthani](https://github.com/AhmadHirthani)
-- [HishamAl Naji](https://github.com/HishamAlNaji)
+- [Hisham Al Naji](https://github.com/HishamAlNaji)
 
 
 # License
