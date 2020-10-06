@@ -158,7 +158,9 @@ the Idea of the project is to link the people in need with the people that wants
 
   - edit comments
 
-    `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
+    `http://localhost:3030/api/v1/users/comments/edit/:id/:commentId`
+
+    `http://localhost:3030/api/v1/donors/comments/edit/:id/:commentId`
 
 
 - Delete
