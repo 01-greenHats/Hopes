@@ -25,11 +25,15 @@ router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
 //posts routes to handle comments
 // /api/v1/posts/comments/:postId
-router.post('/api/v1/:model/comments/:postId', handleAddComment);
+// router.post('/api/v1/:model/comments/:postId', handleAddComment);
 router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment);
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
 // add posts routes ///api/v1/user/posts/add or //api/v1/donor/posts/add 
 router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
+
+// add comments auth ///api/v1/user/comments/add/:postId
+router.post('/api/v1/:model/comments/add/:postId',barerAuth, handleAddComment);
+
 // routes to handle payments
 router.post('/pay', handlePayment);
 router.get('/success', handleSuccess);
@@ -188,11 +192,11 @@ function handleAddComment(req, res) {
     let postId = req.params.postId;
     console.log({ postId });
     let newComment = req.body;
-    req.model.get(postId).then(posts => {
-        console.log('/**/*/**/POST :', posts);
-        newCommntsArray = posts[0].comments;
+    posts.get(postId).then(myposts => {
+        console.log('/**/*/**/POST :', myposts);
+        newCommntsArray = myposts[0].comments;
         newCommntsArray.push(newComment);
-        req.model.update(postId, { comments: newCommntsArray }).then(result => {
+        posts.update(postId, { comments: newCommntsArray }).then(result => {
             res.json(result);
         })
     })
