@@ -24,6 +24,7 @@
     "@code-fellows/supergoose": "^1.0.11",
     "base-64": "^0.1.0",
     "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
@@ -32,6 +33,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.7",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.4.13",
     "paypal-rest-sdk": "^1.8.1",
     "superagent": "^6.1.0"
   }
