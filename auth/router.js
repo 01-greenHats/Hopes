@@ -331,6 +331,7 @@ async function handleSuccess(req, res, next) {
                 amount: payment.transactions[0].amount.total,
                 currency: payment.transactions[0].amount.currency
             }
+
             payments.create(obj).then(result => {
                 console.log(result);
                 res.send('Success');

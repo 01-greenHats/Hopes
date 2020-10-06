@@ -4,7 +4,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const ejs = require('ejs');
 const paypal = require('paypal-rest-sdk');
-const sendMail = require('./8-send-email/send-email.js')
+const sendMail = require('./8-send-email/send-email.js');
+const payments = require('./auth/lib/payments/payments-collection');
+
 require('dotenv').config();
 var bodyParser = require('body-parser')
 
@@ -28,8 +30,8 @@ app.get('/cancel', (req, res) => res.send('Cancelled'));
 // paypal configuration 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
-    'client_id': 'AVmdpJ9EtbqxI1Q-HrmNOCCutM4GMJvnatIMILpbrOexOjcYvonivsy3-BGhdQVyNgy36FI4Zr8IyS56',
-    'client_secret': 'EElBrN_xNQDE6PjBt5tN3FiLChIu20aUtKUg5MjeNqKVZw-PI0ADR8Mt3ATUVgCVyTahnHyp_7C8jGOb',
+    'client_id': process.env.PAYPAL_CLIENT_ID,
+    'client_secret': process.env.PAYPAL_CLIENT_SECRET,
     'headers': {
         'custom': 'header'
     }
@@ -110,7 +112,18 @@ function handleSuccess(req, res, next) {
             };
             sendMail(mailOptions);
             console.log(JSON.stringify(payment));
-            res.send('Success');
+            let obj = {
+                userId: payment.transactions[0].payee.merchant_id,
+                date: payment.create_time,
+                donorName: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name,
+                amount: payment.transactions[0].amount.total,
+                currency: payment.transactions[0].amount.currency
+            }
+            payments.create(obj).then(result => {
+                console.log(result);
+                res.send('Success');
+            });
+            // res.send('Success');
         }
     });
 }
