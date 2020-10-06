@@ -41,8 +41,8 @@ app.get('/cancel', (req, res) => res.send('Cancelled'));
 // paypal configuration 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
-    'client_id': 'AVmdpJ9EtbqxI1Q-HrmNOCCutM4GMJvnatIMILpbrOexOjcYvonivsy3-BGhdQVyNgy36FI4Zr8IyS56',
-    'client_secret': 'EElBrN_xNQDE6PjBt5tN3FiLChIu20aUtKUg5MjeNqKVZw-PI0ADR8Mt3ATUVgCVyTahnHyp_7C8jGOb',
+    'client_id': process.env.PAYPAL_CLIENT_ID,
+    'client_secret': process.env.PAYPAL_CLIENT_SECRET,
     'headers': {
         'custom': 'header'
     }
