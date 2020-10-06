@@ -21,31 +21,31 @@ the Idea of the project is to link the people in need with the people that wants
 
 ## Home Page
 
-![home](/Assets/homePage.jpg)
+![home](/assets/homePage.jpg)
 
 ## User Signin
 
-![signin](/Assets/userSignin.jpg)
+![signin](/assets/userSignin.jpg)
 
 ## User signup
 
-![signup](/Assets/userSignup.jpg)
+![signup](/assets/userSignup.jpg)
 
 ## Donor signin
 
-![signin](/Assets/donorSignin.jpg)
+![signin](/assets/donorSignin.jpg)
 
 ## Donor Signup
 
-![signup](/Assets/donorSignup.jpg)
+![signup](/assets/donorSignup.jpg)
 
 ## Home Posts
 
-![homePosts](/Assets/homePosts.jpg)
+![homePosts](/assets/homePosts.jpg)
 
 ## Donations Posts
 
-![donationPosts](/Assets/donationPosts.jpg)
+![donationPosts](/assets/donationPosts.jpg)
 
 
 
@@ -77,12 +77,12 @@ the Idea of the project is to link the people in need with the people that wants
 
 # Domain Modeling
 
-![domain](/Assets/workflow.jpg)
+![domain](/assets/workflow.jpg)
 
 # UML
 [link](https://miro.com/app/board/o9J_kj2Cl6s=/)
 
-![uml](/Assets/uml.JPG)
+![uml](/assets/uml.JPG)
 
 
 # Setup
@@ -115,66 +115,66 @@ the Idea of the project is to link the people in need with the people that wants
 
   - users/donors/admins signup
 
-`http://localhost:3030/api/v1/donors/signup`
+        `http://localhost:3030/api/v1/donors/signup`
 
-`http://localhost:3030/api/v1/users/signup`
+        `http://localhost:3030/api/v1/users/signup`
 
-`http://localhost:3030/api/v1/admins/signup`
+        `http://localhost:3030/api/v1/admins/signup`
 
   - users/donors/admins signin
 
-`http://localhost:3030/api/v1/donors/signin`
+       `http://localhost:3030/api/v1/donors/signin`
 
-`http://localhost:3030/api/v1/users/signin`
+       `http://localhost:3030/api/v1/users/signin`
 
-`http://localhost:3030/api/v1/admins/signin`
+       `http://localhost:3030/api/v1/admins/signin`
 
   - add posts
 
-`http://localhost:3030/api/v1/users/posts/add`
+       `http://localhost:3030/api/v1/users/posts/add`
 
-`http://localhost:3030/api/v1/donors/posts/add`
+       `http://localhost:3030/api/v1/donors/posts/add`
 
   - add comments
 
-`http://localhost:3030/api/v1/users/comments/:postId`
+      `http://localhost:3030/api/v1/users/comments/:postId`
 
-`http://localhost:3030/api/v1/donors/comments/:postId`
+      `http://localhost:3030/api/v1/donors/comments/:postId`
 
 
 - GET
 
   - view all posts/donors/users/admins
 
-`http://localhost:3030/api/v1/posts`
+     `http://localhost:3030/api/v1/posts`
 
-`http://localhost:3030/api/v1/users`
+     `http://localhost:3030/api/v1/users`
 
-`http://localhost:3030/api/v1/donors`
+     `http://localhost:3030/api/v1/donors`
 
-`http://localhost:3030/api/v1/admins`
+     `http://localhost:3030/api/v1/admins`
 
 - Patch
 
   - edit comments
 
-`http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
+    `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
 
 
 - Delete
 
   - delete comments 
 
-`http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
+   `http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
 
-`http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
+   `http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
 
 
   - delete posts
 
-`http://localhost:3030/api/v1/users/posts/delete/:id`
+   `http://localhost:3030/api/v1/users/posts/delete/:id`
 
-`http://localhost:3030/api/v1/donors/posts/delete/:id`
+   `http://localhost:3030/api/v1/donors/posts/delete/:id`
 
 
 # Tests
