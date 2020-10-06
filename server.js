@@ -5,7 +5,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const ejs = require('ejs');
 const paypal = require('paypal-rest-sdk');
-const sendMail = require('./8-send-email/send-email.js')
+const sendMail = require('./8-send-email/send-email.js');
+const payments = require('./auth/lib/payments/payments-collection');
+
 require('dotenv').config();
 var bodyParser = require('body-parser')
 
@@ -56,7 +58,6 @@ function handlePayment(req, res, next) {
 
 
     const create_payment_json = {
-
         "intent": "sale",
         "payer": {
             "payment_method": "paypal"
@@ -128,7 +129,18 @@ function handleSuccess(req, res, next) {
             sendMail(mailOptions);
 
             console.log(JSON.stringify(payment));
-            res.send('Success');
+            let obj = {
+                userId: payment.transactions[0].payee.merchant_id,
+                date: payment.create_time,
+                donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
+                amount: payment.transactions[0].amount.total,
+                currency: payment.transactions[0].amount.currency
+            }
+            payments.create(obj).then(result => {
+                console.log(result);
+                res.send('Success');
+            });
+            // res.send('Success');
         }
     });
 }
