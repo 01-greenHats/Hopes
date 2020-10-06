@@ -43,14 +43,16 @@ class MultiFunctions {
                 return false;
             }
             }
-            console.log('> >>>>>>>> jwtVarification ', jwtVarification);
+            // console.log('> >>>>>>>> jwtVarification ', jwtVarification);
      if (jwtVarification) {
+        console.log("heyyyyyyyjwtVarification",jwtVarification)
          return jwtVarification
                 // let user = await req.module.findOne({name: jwtVarification.name})
                 // console.log('>>>>>>>>>>>>>>',{user: user});
                 // return user ? Promise.resolve({user: jwtVarification}).catch(error => {
                 //     console.log(error);
                 // }) : false;
+               
             }
             console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
             return false;

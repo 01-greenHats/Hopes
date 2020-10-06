@@ -16,12 +16,12 @@ module.exports = (req, res, next) => {
             req.model.getOne({name: username}).then(userObj => {
                 console.log('Hi there i aM HERE >>>>>>>>>>>>>>',userObj);
                 multiFunctions.comparePasswprds(password, userObj.password).then(validUser => {
-                    console.log('>>>>>>>validUser : ', validUser);
+                    // console.log('>>>>>>>validUser : ', validUser);
                     if (!validUser) {
                         return next('Wrong Useranem or Password');
                     }
                     let token = multiFunctions.getToken(userObj);
-                    console.log('token >>>>>>>', token);
+                    // console.log('token >>>>>>>', token);
                     if (token) {
                         req.basicAuth = {
                             token: token,

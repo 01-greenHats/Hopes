@@ -42,7 +42,25 @@ the Idea of the project is to link the people in need with the people that wants
 
 # User Stories
 
-[Project management board]()
+- as a user/donor I want to sign up
+- as a user/donor I want to sign in
+- as a user/donor I want to sign in using gmail
+- as a user/donor I want to be able to edit my personal data
+- as a user/donor I want to see al the posts
+- as a user/donor I want to publish a post 
+- as a user/donor I want to comment on posts 
+- as a user/donor I want to delete my posts 
+- as a user/donor I want to edit my comments
+
+- as a user I want to be notefied by email if i recived any donation
+- as a user I want to see my donations history ordered by donation date
+
+- as a donor I want to see a list of users 
+- as a donor I want to search on the users by national no
+- as a donor I want to see al the users donations history ordered by donation date
+- as a donor I want to be able to see all the users details data
+- as a donor I want to transfare money to the user
+
 
 # Domain Modeling
 
@@ -80,9 +98,9 @@ the Idea of the project is to link the people in need with the people that wants
 
 - postman
 
-### POST
+- POST
 
-- users/donors/admins signup
+  - users/donors/admins signup
 
 `http://localhost:3030/api/v1/donors/signup`
 
@@ -111,9 +129,9 @@ the Idea of the project is to link the people in need with the people that wants
 `http://localhost:3030/api/v1/donors/comments/:postId`
 
 
-### GET
+- GET
 
-- view all posts/donors/users/admins
+  - view all posts/donors/users/admins
 
 `http://localhost:3030/api/v1/posts`
 
@@ -123,18 +141,27 @@ the Idea of the project is to link the people in need with the people that wants
 
 `http://localhost:3030/api/v1/admins`
 
-### Patch
+- Patch
 
-- edit comments
-
-`http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
-
-
-### Delete
-
-- delete comments 
+  - edit comments
 
 `http://localhost:3030/api/v1/posts/comments/:postId/:commentId`
+
+
+- Delete
+
+  - delete comments 
+
+`http://localhost:3030/api/v1/users/comments/delete/:id/commentId`
+
+`http://localhost:3030/api/v1/donors/comments/delete/:id/commentId`
+
+
+  - delete posts
+
+`http://localhost:3030/api/v1/users/posts/delete/:id`
+
+`http://localhost:3030/api/v1/donors/posts/delete/:id`
 
 
 # Tests

@@ -12,9 +12,11 @@ const posts = require('./lib/posts/posts-collection');
 const payments = require('./lib/payments/payments-collection');
 const signUpMidd = require('./middleware/signUpMidd');
 const basicAuth = require('./middleware/basicAuth');
+const adminBarer = require('./middleware/adminBarer');
 const oauth = require('./middleware/oauth');
 const barerAuth = require('./middleware/barerAuth');
-
+const deleteAuth = require('./middleware/deleteAuth');
+const { post } = require('superagent');
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
 router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
@@ -26,6 +28,7 @@ router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
 //posts routes to handle comments
+// /api/v1/posts/comments/:postId
 router.post('/api/v1/:model/comments/:postId', handleAddComment);
 router.delete('/api/v1/:model/comments/:postId/:commentId', handleDeleteComment);
 router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
@@ -40,6 +43,25 @@ router.get('/pay', getPayments);
 
 // routes to handle admin approvals
 
+// delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
+// send in the req the bearer token after signin  ////:id is the id of the post
+router.delete('/api/v1/:model/posts/delete/:id', barerAuth, deleteAuth, handleDeleteposts)
+
+//delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
+// send in the req the bearer token after signin //:id is the id of the post
+router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, deleteAuth, handleDeleteSComment)
+
+// edit comments
+// router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
+
+router.put('/api/v1/:model/user/:id',adminBarer, usersApproval);
+
+function usersApproval(req, res, next) {
+    // console.log(req.body);
+    users.update(req.params.id,req.body).then(result => {
+        res.json(result);
+    });
+}
 
 
 router.param('model', getModel);
@@ -69,6 +91,10 @@ function getModel(req, res, next) {
             break;
         case 'payments':
             req.model = payments;
+            next();
+            break;
+        case 'admin':
+            req.model = admin;
             next();
             break;
         default:
@@ -108,6 +134,7 @@ function handlePostItem(req, res, next) {
  */
 
 function handleAddPostItem(req, res, next) {
+    // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
     }).catch(next);
@@ -137,6 +164,21 @@ function handleDeleteItem(req, res, next) {
 }
 /**
  * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+function handleDeleteposts(req, res, next) {
+    console.log('param id: ', req.params.id);
+    posts.delete(req.params.id).then(result => {
+        res.json(result);
+    }).catch(next);
+}
+
+
+
+/**
+ * 
  */
 function handleSignUp(req, res, next) {
     req.model.create(req.body).then(result => {
@@ -149,6 +191,7 @@ function handleSignIn(req, res) {
         res.cookie('token', req.basicAuth.token);
         // add a header
         res.set('token', req.basicAuth.token);
+        // console.log('this is token in res : ',res.token);
         // send json object with token and user record
         res.status(200).json(req.basicAuth);
     } else {
@@ -163,8 +206,8 @@ function handleAddComment(req, res) {
     console.log({ postId });
 
     let newComment = req.body;
-
     req.model.get(postId).then(posts => {
+        console.log('/**/*/**/POST :', posts);
         newCommntsArray = posts[0].comments;
         newCommntsArray.push(newComment);
         req.model.update(postId, { comments: newCommntsArray }).then(result => {
@@ -190,6 +233,28 @@ function handleDeleteComment(req, res) {
             }
         });
         req.model.update(postId, { comments: commntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
+
+
+function handleDeleteSComment(req, res) {
+    // console.log('params id>>>', req.params.id);
+    let commntsArray = [];
+    let id = req.params.id;
+    let commentId = req.params.commentId;
+    console.log('id>>>', id);
+    console.log('commentId>>>', commentId);
+    posts.get(id).then(mypost => {
+        commntsArray = mypost[0].comments;
+        commntsArray.forEach((comment, index) => {
+            console.log('coment>>>', comment._id);
+            if (comment._id == commentId) {
+                commntsArray.splice(index, 1);
+            }
+        });
+        posts.update(id, { comments: commntsArray }).then(result => {
             res.json(result);
         })
     })
@@ -289,10 +354,10 @@ async function handleSuccess(req, res, next) {
             let obj = {
                 userId: payment.transactions[0].payee.merchant_id,
                 date: payment.create_time,
-                donorName: payment.payer.first_name + ' ' + payment.payer.last_name ,
+                donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
                 amount: payment.transactions[0].amount.total,
                 currency: payment.transactions[0].amount.currency
-                    }
+            }
             payments.create(obj).then(result => {
                 console.log(result);
                 res.send('Success');
@@ -301,7 +366,7 @@ async function handleSuccess(req, res, next) {
     });
 }
 
-function getPayments (req, res, next) {
+function getPayments(req, res, next) {
     payments.get().then(results => {
         console.log(results);
         let count = results.length;
@@ -310,4 +375,24 @@ function getPayments (req, res, next) {
 }
 
 
+function handleEditSComment(req, res) {
+    // console.log('params id>>>', req.params.id);
+    let commntsArray = [];
+    let postId = req.params.id;
+    let commentId = req.params.commentId;
+    let newComment = req.body;
+    posts.get(postId).then(myposts => {
+        commntsArray = myposts[0].comments;
+        commntsArray.forEach((comment, index) => {
+            console.log("thiiiiiis issssss the commmmetsss", comment)
+            if (comment._id == commentId) {
+                comment.content = newComment.content;
+                console.log('no problem ')
+            }
+        });
+        posts.update(postId, { comments: commntsArray }).then(result => {
+            res.json(result);
+        })
+    })
+}
 module.exports = router;
