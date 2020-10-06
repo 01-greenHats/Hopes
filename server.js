@@ -7,7 +7,7 @@ const ejs = require('ejs');
 const paypal = require('paypal-rest-sdk');
 const sendMail = require('./8-send-email/send-email.js')
 require('dotenv').config();
-// var bodyParser = require('body-parser')
+var bodyParser = require('body-parser')
 
 
 let inNeedEmail = 'hertani86@gmail.com';
