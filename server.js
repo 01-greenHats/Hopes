@@ -132,7 +132,7 @@ function handleSuccess(req, res, next) {
             let obj = {
                 userId: payment.transactions[0].payee.merchant_id,
                 date: payment.create_time,
-                donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
+                donorName: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name,
                 amount: payment.transactions[0].amount.total,
                 currency: payment.transactions[0].amount.currency
             }
