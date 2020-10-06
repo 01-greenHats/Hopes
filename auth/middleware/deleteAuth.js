@@ -24,24 +24,31 @@ module.exports = (req, res, next) => {
                             console.log("commmmmmmmentuserid", comment.userid)
                             console.log("results.name", results.name)
                             if (comment.userid === results.name) {
+                                console.log("delete auth done")
                                 next();
+                                return;
+
+
                             } else {
                                 console.log("outsideeeeee")
                                 next('invalid action ')
                             }
                         });
+                    } else {
+                        //for delete posts
+                        if (results.name === obj[0].userid) {
+                            // console.log("helooooo hiiiiii iam the  obj[0].userid", obj[0].userid)
+                            // console.log("helooooo  iam the results.name", results.name)
+                            console.log("inside next")
+                            next();
+                        }
+                        else {
+                            console.log("outsideeeeee")
+                            next('Wrong user you cant acsses this action  !!')
+                        }
+
                     }
-                    //for delete posts
-                    if (results.name === obj[0].userid) {
-                        console.log("helooooo hiiiiii iam the  obj[0].userid", obj[0].userid)
-                        console.log("helooooo  iam the results.name", results.name)
-                        console.log("inside next")
-                        next();
-                    }
-                    else {
-                        console.log("outsideeeeee")
-                        next('Wrong user you cant acsses this action  !!')
-                    }
+
                 })
             })
         }
