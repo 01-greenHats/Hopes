@@ -15,6 +15,8 @@ const oauth = require('./middleware/oauth');
 const barerAuth = require('./middleware/barerAuth');
 const deleteAuth = require('./middleware/deleteAuth');
 const { post } = require('superagent');
+
+//routes
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
 router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
@@ -32,7 +34,7 @@ router.patch('/api/v1/:model/comments/:postId/:commentId', handleEditComment);
 router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
 
 // add comments auth ///api/v1/user/comments/add/:postId
-router.post('/api/v1/:model/comments/add/:postId',barerAuth, handleAddComment);
+router.post('/api/v1/:model/comments/add/:postId', barerAuth, handleAddComment);
 
 // routes to handle payments
 router.post('/pay', handlePayment);
@@ -43,15 +45,16 @@ router.get('/pay', getPayments);
 // delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
 // send in the req the bearer token after signin  ////:id is the id of the post
 router.delete('/api/v1/:model/posts/delete/:id', barerAuth, deleteAuth, handleDeleteposts)
-//delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
-// send in the req the bearer token after signin //:id is the id of the post
+    //delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
+    // send in the req the bearer token after signin //:id is the id of the post
 router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, deleteAuth, handleDeleteSComment)
-// edit comments
-router.patch('/api/v1/:model/comments/edit/:id/:commentId',barerAuth,deleteAuth,handleEditSComment);
+    // edit comments
+router.patch('/api/v1/:model/comments/edit/:id/:commentId', barerAuth, deleteAuth, handleEditSComment);
 
 
 
 router.put('/api/v1/:model/user/:id', adminBarer, usersApproval);
+
 function usersApproval(req, res, next) {
     // console.log(req.body);
     users.update(req.params.id, req.body).then(result => {
@@ -173,6 +176,7 @@ function handleSignUp(req, res, next) {
         res.json(req.jwt);
     }).catch(next);
 }
+
 function handleSignIn(req, res) {
     if (req.basicAuth) {
         // add the token as cookie 
@@ -186,6 +190,7 @@ function handleSignIn(req, res) {
         res.status(403).send("invaled login");
     }
 }
+
 function handleAddComment(req, res) {
     console.log('handleAddComment called');
     let newCommntsArray = [];
@@ -201,6 +206,7 @@ function handleAddComment(req, res) {
         })
     })
 }
+
 function handleDeleteComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -221,6 +227,7 @@ function handleDeleteComment(req, res) {
         })
     })
 }
+
 function handleDeleteSComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -241,6 +248,7 @@ function handleDeleteSComment(req, res) {
         })
     })
 }
+
 function handleEditComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];
@@ -343,6 +351,7 @@ async function handleSuccess(req, res, next) {
         }
     });
 }
+
 function getPayments(req, res, next) {
     payments.get().then(results => {
         console.log(results);
@@ -350,6 +359,7 @@ function getPayments(req, res, next) {
         res.json({ count, results });
     });
 }
+
 function handleEditSComment(req, res) {
     // console.log('params id>>>', req.params.id);
     let commntsArray = [];

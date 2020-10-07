@@ -5,6 +5,7 @@ const base64 = require('base-64');
 module.exports = (req, res, next) => {
     try {
         if (!req.headers.authorization) {
+            console.log('req.headers>>>>>>', req.headers)
             next('missing Headers!');
             return;
         }
@@ -13,8 +14,8 @@ module.exports = (req, res, next) => {
         // console.log('Hiiiiiiiiii',auth);
         if (auth[0] == 'Basic') {
             const [username, password] = base64.decode(auth[1]).split(':');
-            req.model.getOne({name: username}).then(userObj => {
-                console.log('Hi there i aM HERE >>>>>>>>>>>>>>',userObj);
+            req.model.getOne({ name: username }).then(userObj => {
+                console.log('Hi there i aM HERE >>>>>>>>>>>>>>', userObj);
                 multiFunctions.comparePasswprds(password, userObj.password).then(validUser => {
                     // console.log('>>>>>>>validUser : ', validUser);
                     if (!validUser) {

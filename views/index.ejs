@@ -6,12 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hopes</title>
+    <style>
+        #donateform {
+            background-color: aqua;
+            padding: 20px;
+            margin: 20px;
+        }
+        
+        #usersignupform {
+            background-color: cadetblue;
+            padding: 20px;
+            margin: 20px;
+        }
+        
+        #usersigninform {
+            background-color: gray;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
 </head>
 
 <body>
+    <button id="donatebutton">Donate</button>
+    <button id="signupbutton">Signup</button>
+
     <h1>Donate For Gaza</h1>
 
-    <form action="/pay" method="POST">
+    <form id="donateform" action="/pay" method="POST">
         <label for="email">In need Email:</label>
         <input type="text" id="email" name="email"><br><br>
         <label for="amount">Amount:</label>
@@ -20,11 +42,90 @@
         <button type="submit">Donate</button>
     </form>
 
+    <form id="usersignupform" action="/api/v1/users/signup" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+
+        <label for="nationalNo">National No:</label>
+        <input type="text" id="nationalNo" name="nationalNo"><br><br>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email"><br><br>
+
+        <label for="payPal">PayPal Account:</label>
+        <input type="text" id="payPal" name="payPal"><br><br>
+
+        <label for="dob">Birth Date:</label>
+        <input type="text" id="dob" name="dob"><br><br>
+
+        <label for="familyCount">Family Count:</label>
+        <input type="text" id="familyCount" name="familyCount"><br><br>
+
+        <label for="socialStatus">Social Status:</label>
+        <input type="text" id="socialStatus" name="socialStatus"><br><br>
+
+        <label for="healthStatus">Health Status:</label>
+        <input type="text" id="healthStatus" name="healthStatus"><br><br>
+
+        <label for="healthDesc">Health Description:</label>
+        <input type="text" id="healthDesc" name="healthDesc"><br><br>
+
+        <label for="income">Monthly Income:</label>
+        <input type="text" id="income" name="income"><br><br>
+
+        <label for="expencsies">Monthly Expencsies:</label>
+        <input type="text" id="expencsies" name="expencsies"><br><br>
+
+        <button type="submit">Signup</button>
+    </form>
+
+
+
+
+
+
+
+
     <!-- <form action="/pay" method="post">
         Amount:<input type="text" name="amount"> In need Email:<input type="text" name="email">
 
         <input type="submit" value="pay">
     </form> -->
+    <script>
+        var donateform = document.getElementById("donateform");
+        var usersignupform = document.getElementById("usersignupform");
+        donateform.style.display = "none";
+        usersignupform.style.display = "none";
+
+        let donatebutton = document.getElementById('donatebutton');
+        let signupbutton = document.getElementById('signupbutton');
+
+
+
+
+        donatebutton.addEventListener("click", () => {
+            if (donateform.style.display === "none") {
+                usersignupform.style.display = "none";
+                donateform.style.display = "inline-block";
+            } else {
+                donateform.style.display = "none";
+            }
+        });
+
+
+        signupbutton.addEventListener("click", () => {
+            if (usersignupform.style.display === "none") {
+                donateform.style.display = "none";
+                usersignupform.style.display = "inline-block";
+            } else {
+                usersignupform.style.display = "none";
+            }
+        });
+    </script>
+
 </body>
 
 </html>
