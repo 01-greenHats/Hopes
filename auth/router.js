@@ -178,6 +178,8 @@ function handleSignUp(req, res, next) {
 }
 
 function handleSignIn(req, res) {
+    console.log('start handleSignIn');
+
     if (req.basicAuth) {
         // add the token as cookie 
         res.cookie('token', req.basicAuth.token);
@@ -189,6 +191,8 @@ function handleSignIn(req, res) {
     } else {
         res.status(403).send("invaled login");
     }
+    console.log('finish handleSignIn');
+
 }
 
 function handleAddComment(req, res) {
