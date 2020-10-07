@@ -12,6 +12,7 @@ const {
 const API_SERVER = 'https://gazahopes.herokuapp.com/api/v1/donor/oauth';
 
 module.exports = async function(req, res, next) {
+    console.log('start OAuth');
     try {
         const {
             code,
@@ -37,6 +38,8 @@ module.exports = async function(req, res, next) {
     } catch (e) {
         next(`ERROR: ${e.message}`);
     }
+    console.log('finish OAuth');
+
 };
 
 // this will use the access_token google api endpoint
