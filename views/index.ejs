@@ -30,6 +30,8 @@
 <body>
     <button id="donatebutton">Donate</button>
     <button id="signupbutton">Signup</button>
+    <a id="oauth" href="">sign in using gmail</a>
+
 
     <h1>Donate For Gaza</h1>
 
@@ -124,6 +126,23 @@
                 usersignupform.style.display = "none";
             }
         });
+
+        //OAuth
+        let URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+        let options = {
+            response_type: 'code',
+            client_id: '82394101385-etk6j4a51uavmfnsg83uc7ccsc5nc0if.apps.googleusercontent.com',
+            redirect_uri: 'https://gazahopes.herokuapp.com/api/v1/donor/oauth',
+            scope: 'openid email',
+            state: 'https://gazahopes.herokuapp.com/',
+            access_type: 'offline',
+        }
+        let QueryString = Object.keys(options).map((key) => {
+            return `${key}=` + encodeURIComponent(options[key]);
+        }).join("&");
+        let authURL = `${URL}?${QueryString}`;
+        let link = document.getElementById('oauth');
+        link.setAttribute('href', authURL);
     </script>
 
 </body>
