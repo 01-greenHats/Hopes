@@ -11,7 +11,7 @@ const posts = mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     imageUrl: { type: String },
-    createdTime: { type: String, required: true },
+    createdTime: { type: String, required: true, default: Date.now },
     comments: [{
         type: commentsSchema
     }]
