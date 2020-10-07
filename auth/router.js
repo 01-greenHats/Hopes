@@ -57,7 +57,7 @@ router.put('/api/v1/:model/user/:id', adminBarer, usersApproval);
 
 function usersApproval(req, res, next) {
     // console.log(req.body);
-    users.update(req.params.id, req.body).then(result => {
+    users.update(req.params.id, { isActive: 2 }).then(result => {
         res.json(result);
     });
 }
