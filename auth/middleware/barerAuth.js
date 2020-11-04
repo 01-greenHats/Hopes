@@ -9,7 +9,9 @@ module.exports = (req, res, next) => {
         }
         let auth = req.headers.authorization.split(' ')
         if (auth[0] == 'Bearer') {
+            console.log(' auth[0] == Bearer');
             let token = auth[1];
+            console.log('received token>>> ',token);
             multiFunctions.authoraizeUser(token).then(isUserAuthorize => {
 
                 if (isUserAuthorize) {
