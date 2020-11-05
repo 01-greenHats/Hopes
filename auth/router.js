@@ -128,10 +128,15 @@ function handlePostItem(req, res, next) {
  * @param {next} next 
  */
 function handleAddPostItem(req, res, next) {
+    console.log('start handleAddPostItem');
+
     // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
+        console.log('adding post result>>',result);
     }).catch(next);
+    console.log('start handleAddPostItem');
+
 }
 /**
  * 

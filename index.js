@@ -16,7 +16,8 @@
 
 
     // connect to cloud DB
-   const uri = "mongodb+srv://ahmad:hopes2020@cluster0.vagkk.mongodb.net/hopes?retryWrites=true&w=majority";
+   const uri = process.
+   +"mongodb+srv://ahmad:hopes2020@cluster0.vagkk.mongodb.net/hopes?retryWrites=true&w=majority";
    mongoose.connect(uri, {
            useNewUrlParser: true,
            useUnifiedTopology: true
