@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
             return;
         }
         let auth = req.headers.authorization.split(' ')
+        console.log('auth line>>',auth);
         if (auth[0] == 'Bearer') {
             console.log(' auth[0] == Bearer');
             let token = auth[1];
