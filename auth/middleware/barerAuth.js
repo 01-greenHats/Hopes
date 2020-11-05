@@ -2,7 +2,10 @@
 'use strict';
 const multiFunctions = require('../lib/multiFunctions')
 module.exports = (req, res, next) => {
+    console.log('start Bearer Auth');
+
     try {
+        console.log('start try in Bearer Auth');
         if (!req.headers.authorization) {
             next('missing Headers!');
             return;
@@ -34,7 +37,11 @@ module.exports = (req, res, next) => {
             })
 
         }
+        console.log('finish try in Bearer Auth');
+
     } catch (error) {
         next('this is the error : ', error);
     }
+    console.log('finish Bearer Auth');
+
 }
