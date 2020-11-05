@@ -10,6 +10,10 @@ module.exports = (req, res, next) => {
             next('missing Headers!');
             return;
         }
+        console.log('req.headers>>',req.headers);
+
+        console.log('req.headers.authorization>>',req.headers.authorization);
+
         let auth = req.headers.authorization.split(' ')
         console.log('auth line>>',auth);
         if (auth[0] == 'Bearer') {
