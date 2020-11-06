@@ -51,6 +51,9 @@ router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, delete
     // edit comments
 router.patch('/api/v1/:model/comments/edit/:id/:commentId', barerAuth, deleteAuth, handleEditSComment);
 
+// edit post 
+router.patch('/api/v1/:model/posts/edit/:id', barerAuth, deleteAuth, handleEditPost);
+
 
 
 router.put('/api/v1/:model/user/:id', adminBarer, usersApproval);
@@ -388,5 +391,21 @@ function handleEditSComment(req, res) {
             res.json(result);
         })
     })
+}
+
+function handleEditPost(req,res){
+     
+     let postId = req.params.id;
+     let newPost = req.body;
+     posts.get(postId).then(myposts => {
+         console.log("my post by id ",myposts)
+      
+        console.log("new post after edit" ,newPost)
+         posts.update(postId,  newPost ).then(result => {
+             console.log("my results for edit post ",result)
+             res.json(result);
+         })
+     })
+
 }
 module.exports = router;
