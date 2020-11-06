@@ -177,6 +177,9 @@ function handleDeleteposts(req, res, next) {
  * 
  */
 function handleSignUp(req, res, next) {
+    console.log('start handleSignup');
+    console.log('req.body>>>',req.body);
+
     req.model.create(req.body).then(result => {
         res.json(req.jwt);
     }).catch(next);
