@@ -225,7 +225,11 @@ function handleAddComment(req, res) {
     let newCommntsArray = [];
     let postId = req.params.postId;
     console.log({ postId });
-    let newComment = req.body;
+    let newComment ={
+        name : req.name,
+        imgURL : req.imgURL,
+        content:req.body.content
+    } ;
     posts.get(postId).then(myposts => {
         console.log('/**/*/**/POST :', myposts);
         newCommntsArray = myposts[0].comments;
@@ -258,7 +262,7 @@ function handleDeleteComment(req, res) {
 }
 
 function handleDeleteSComment(req, res) {
-    // console.log('params id>>>', req.params.id);
+    console.log('*****/**/*/*/*/*/*******Handle Delete Comment********/*/*/*/*/*');
     let commntsArray = [];
     let id = req.params.id;
     let commentId = req.params.commentId;

@@ -27,6 +27,9 @@ module.exports = (req, res, next) => {
                     req.model.getOne({ name: isUserAuthorize.name }).then(user => {
                         console.log('>>>>>>>>>>>>>>', { user: user });
                         if (user) {
+                            req.userId = user._id
+                            req.name = user.name
+                            req.imgURL = user.imgURL
                             console.log("bearer auth done")
                             next();
                             return;
