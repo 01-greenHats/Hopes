@@ -10,7 +10,9 @@ class MultiFunctions {
         return jwt.sign({
             name: userObj.name,
             nationalNo: userObj.nationalNo || '123'
-        }, process.env.TOKEN_SECRET, {expiresIn: '4500s'});
+        }, process.env.TOKEN_SECRET);
+  //  }, process.env.TOKEN_SECRET, {expiresIn: '4500s'});
+
     }
     async hash(string){
         let hashedPass = await bcrypt.hash(string, 5);

@@ -173,7 +173,7 @@ The Idea of the project is to link the people in need with the people that wants
 
      `http://localhost:3030/api/v1/users/posts/edit/:id`
      
-     `http://localhost:3030/api/v1/users/posts/edit/:id`
+     `http://localhost:3030/api/v1/donors/posts/edit/:id`
 
 
 - Delete
