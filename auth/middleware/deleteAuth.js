@@ -15,28 +15,22 @@ module.exports = (req, res, next) => {
                 //  get the post from db by its id from params 
                 posts.get(req.params.id).then(obj => {
                     console.log("??????obj", obj)
-                    console.log("helooooo  iam the obj[0].userid", obj[0].userid)
+                    console.log("helooooo  iam the obj[0].name", obj[0].author)
                     console.log("helooooo  iam the results.name", results.name)
                     // for delete comments 
                     if (req.params.commentId) {
                         obj[0].comments.forEach(comment => {
                             console.log("commmmmmmment", comment)
-                            console.log("commmmmmmmentuserid", comment.userid)
+                            console.log("commmmmmmmentname", comment.name)
                             console.log("results.name", results.name)
-                            if (comment.userid === results.name) {
+                            if (comment.name === results.name) {
                                 console.log("delete auth done")
                                 next();
-                                return;
-
-
-                            } else {
-                                console.log("outsideeeeee")
-                                next('invalid action ')
                             }
                         });
                     } else {
                         //for delete posts
-                        if (results.name === obj[0].userid) {
+                        if (results.name === obj[0].author) {
                             // console.log("helooooo hiiiiii iam the  obj[0].userid", obj[0].userid)
                             // console.log("helooooo  iam the results.name", results.name)
                             console.log("inside next")
