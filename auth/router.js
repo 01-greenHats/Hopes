@@ -17,6 +17,7 @@ const deleteAuth = require('./middleware/deleteAuth');
 const { post } = require('superagent');
 
 //routes
+router.get('/api/v1/getAllPosts', handleGetAllPosts);
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
 router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
@@ -100,6 +101,21 @@ function getModel(req, res, next) {
             break;
     }
 }
+
+
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+function handleGetAllPosts(req, res, next) {
+    posts.getAllPosts().then(results => {
+        let count = results.length;
+        res.json({ count, results });
+    });
+}
+
 /**
  * 
  * @param {request} req 
@@ -131,6 +147,7 @@ function handlePostItem(req, res, next) {
  * @param {next} next 
  */
 function handleAddPostItem(req, res, next) {
+
     console.log('start handleAddPostItem');
 
     // console.log('>>',req);

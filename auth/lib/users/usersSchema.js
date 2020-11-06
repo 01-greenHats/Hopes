@@ -18,4 +18,4 @@ const users = mongoose.Schema({
     isActive: { type: Number, default: 1 }
 });
 
-module.exports = mongoose.model('users', users);
+module.exports = mongoose.model('user', users);
