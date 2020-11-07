@@ -18,6 +18,9 @@ const { post } = require('superagent');
 
 //routes
 router.get('/api/v1/getAllPosts', handleGetAllPosts);
+router.get('/api/v1/payments/:userId', handleGetPaymentsForOneUser);
+
+
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
 router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
@@ -115,6 +118,23 @@ function handleGetAllPosts(req, res, next) {
         res.json({ count, results });
     });
 }
+
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+function handleGetPaymentsForOneUser(req, res, next) {
+    console.log('handleGetPaymentsForOneUser called ');
+    payments.getPaymentsByUserId(req.params.userId).then(results => {
+        console.log('payments result>>> ', results);
+        let count = results.length;
+        res.json({ count, results });
+    });
+}
+
+
 
 /**
  * 

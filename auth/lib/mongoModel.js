@@ -23,6 +23,11 @@ class Model {
     getOne(obj) { // console.log('----------',this.schema);
         return this.schema.findOne(obj);
     }
+
+    getPaymentsByUserId(userId){
+        return this.schema.find({userId})
+    }
+
     getAllPosts(obj) {
 
         return this.schema.find(obj).populate('author');
