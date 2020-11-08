@@ -41,8 +41,11 @@ function handlePayment(req, res, next) {
     console.log("handlePayment called");
     amount = req.body.amount;
     inNeedEmail = req.body.email;
+    inNeedId=req.body.userId;
     console.log({ amount });
     console.log({ inNeedEmail });
+    console.log({ inNeedId });
+
     const create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -74,7 +77,8 @@ function handlePayment(req, res, next) {
         try {
             for (let i = 0; i < payment.links.length; i++) {
                 if (payment.links[i].rel === 'approval_url') {
-                    res.redirect(payment.links[i].href);
+                    res.redirect(payment.links[i].href+'?userId=' + userId);
+
                 }
             }
         } catch (error) {
@@ -87,6 +91,8 @@ function handleSuccess(req, res, next) {
     console.log('success called');
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
+    const userId=req.query.userId;
+    console.log('userId>>>',userId);
     const execute_payment_json = {
         "payer_id": payerId,
         "transactions": [{
@@ -113,7 +119,7 @@ function handleSuccess(req, res, next) {
             sendMail(mailOptions);
             console.log(JSON.stringify(payment));
             let obj = {
-                userId: payment.transactions[0].payee.merchant_id,
+                userId: userId,
                 date: payment.create_time,
                 donorName: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name,
                 amount: payment.transactions[0].amount.total,

@@ -41,18 +41,18 @@ router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
 router.post('/api/v1/:model/comments/add/:postId', barerAuth, handleAddComment);
 
 // routes to handle payments
-router.post('/pay',handlePayment);
+router.post('/pay', handlePayment);
 router.get('/success', handleSuccess);
 router.get('/cancel', (req, res) => res.send('Cancelled'));
-// router.get('/pay', getPayments);
+router.get('/pay', getPayments);
 // routes to handle admin approvals
 // delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
 // send in the req the bearer token after signin  ////:id is the id of the post
 router.delete('/api/v1/:model/posts/delete/:id', barerAuth, deleteAuth, handleDeleteposts)
-//delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
-// send in the req the bearer token after signin //:id is the id of the post
+    //delete comments  /api/v1/users/comments/delete/:id/commentId or /api/v1/donors/comments/delete/:id/commentId
+    // send in the req the bearer token after signin //:id is the id of the post
 router.delete('/api/v1/:model/comments/delete/:id/:commentId', barerAuth, deleteAuth, handleDeleteSComment)
-// edit comments
+    // edit comments
 router.patch('/api/v1/:model/comments/edit/:id/:commentId', barerAuth, deleteAuth, handleEditSComment);
 
 // edit post 
@@ -173,7 +173,7 @@ function handleAddPostItem(req, res, next) {
     // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
-        console.log('adding post result>>', result);
+        console.log('adding post result>>',result);
     }).catch(next);
     console.log('start handleAddPostItem');
 
@@ -218,11 +218,11 @@ function handleDeleteposts(req, res, next) {
  */
 function handleSignUp(req, res, next) {
     console.log('start handleSignup');
-    console.log('req.body>>>', req.body);
+    console.log('req.body>>>',req.body);
 
     req.model.create(req.body).then(result => {
-        console.log('result>>', result);
-        res.json({ token: req.jwt, addedUser: result });
+        console.log('result>>',result);
+        res.json({token:req.jwt,addedUser:result});
     }).catch(next);
 }
 
@@ -236,7 +236,7 @@ function handleSignIn(req, res) {
         res.set('token', req.basicAuth.token);
         // console.log('this is token in res : ',res.token);
         // send json object with token and user record
-        res.status(200).json({ token: req.basicAuth, loggedUser: req.userObject });
+        res.status(200).json({token:req.basicAuth,loggedUser:req.userObject});
     } else {
         res.status(403).send("invaled login");
     }
@@ -249,11 +249,11 @@ function handleAddComment(req, res) {
     let newCommntsArray = [];
     let postId = req.params.postId;
     console.log({ postId });
-    let newComment = {
-        name: req.name,
-        imgURL: req.imgURL,
-        content: req.body.content
-    };
+    let newComment ={
+        name : req.name,
+        imgURL : req.imgURL,
+        content:req.body.content
+    } ;
     posts.get(postId).then(myposts => {
         console.log('/**/*/**/POST :', myposts);
         newCommntsArray = myposts[0].comments;
@@ -335,13 +335,17 @@ paypal.configure({
     }
 });
 async function handlePayment(req, res, next) {
-   
+    console.log("handlePayment called in backend");
+    console.log('req.body',req.body);
 
-    // console.log('usedId',req.body.userId);
-    // let userId=req.body.userId;
+    console.log('usedId',req.body.userId);
 
 
-   const create_payment_json = {
+
+
+
+
+    const create_payment_json = {
         "intent": "sale",
         "payer": {
             "payment_method": "paypal"
@@ -361,32 +365,25 @@ async function handlePayment(req, res, next) {
                 "currency": "USD",
                 "total": "25.00"
             },
-            "description": "Hat for the best team ever",
-            "userName":"Ahmad Alhrthani",
+            "description": "Hat for the best team ever"
         }]
     };
-    await paypal.payment.create(create_payment_json, function (error, payment) {
-        // console.log("handlePayment called in backend");
-        // console.log('payment createeeee called');
-
+    await paypal.payment.create(create_payment_json, function(error, payment) {
+        console.log('payment create called');
         try {
             for (let i = 0; i < payment.links.length; i++) {
                 if (payment.links[i].rel === 'approval_url') {
-                    // console.log('payment.links[i].href>>', payment.links[i].href);
                     res.redirect(payment.links[i].href);
                 }
             }
         } catch (error) {
-            // console.log("create payment error>>>", error);
+            console.log("create payment error>>>", error);
         }
         // res.send("test");
     });
 }
 async function handleSuccess(req, res, next) {
-    // console.log('success calledddddd');
- 
-
-
+    console.log('success called');
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     const execute_payment_json = {
@@ -398,15 +395,13 @@ async function handleSuccess(req, res, next) {
             }
         }]
     };
-    await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-        // console.log('execute called');
-        // console.log('req.body');
-        // console.log('req.body',req.body);
+    await paypal.payment.execute(paymentId, execute_payment_json, function(error, payment) {
+        console.log('execute called');
         if (error) {
-            // console.log(error.response);
+            console.log(error.response);
             throw error;
         } else {
-            // console.log(JSON.stringify(payment));
+            console.log(JSON.stringify(payment));
             let obj = {
                 userId: payment.transactions[0].payee.merchant_id,
                 date: payment.create_time,
@@ -414,10 +409,10 @@ async function handleSuccess(req, res, next) {
                 amount: payment.transactions[0].amount.total,
                 currency: payment.transactions[0].amount.currency
             }
-
+            
 
             payments.create(obj).then(result => {
-                // console.log(result);
+                console.log(result);
 
                 res.send('Success');
             });
@@ -425,13 +420,13 @@ async function handleSuccess(req, res, next) {
     });
 }
 
-// function getPayments(req, res, next) {
-//     payments.get().then(results => {
-//         console.log(results);
-//         let count = results.length;
-//         res.json({ count, results });
-//     });
-// }
+function getPayments(req, res, next) {
+    payments.get().then(results => {
+        console.log(results);
+        let count = results.length;
+        res.json({ count, results });
+    });
+}
 
 function handleEditSComment(req, res) {
     // console.log('params id>>>', req.params.id);
@@ -454,20 +449,19 @@ function handleEditSComment(req, res) {
     })
 }
 
-function handleEditPost(req, res) {
-
-    let postId = req.params.id;
-    let newPost = req.body;
-    posts.get(postId).then(myposts => {
-        console.log("my post by id ", myposts)
-
-        console.log("new post after edit", newPost)
-        posts.update(postId, newPost).then(result => {
-            console.log("my results for edit post ", result)
-            res.json(result);
-        })
-    })
+function handleEditPost(req,res){
+     
+     let postId = req.params.id;
+     let newPost = req.body;
+     posts.get(postId).then(myposts => {
+         console.log("my post by id ",myposts)
+      
+        console.log("new post after edit" ,newPost)
+         posts.update(postId,  newPost ).then(result => {
+             console.log("my results for edit post ",result)
+             res.json(result);
+         })
+     })
 
 }
 module.exports = router;
-
