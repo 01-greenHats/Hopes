@@ -339,6 +339,7 @@ async function handlePayment(req, res, next) {
     console.log('req.body',req.body);
 
     console.log('usedId',req.body.userId);
+    let userId=req.body.userId;
 
 
 
@@ -365,7 +366,8 @@ async function handlePayment(req, res, next) {
                 "currency": "USD",
                 "total": "25.00"
             },
-            "description": "Hat for the best team ever"
+            "description": "Hat for the best team ever",
+            "userId":userId
         }]
     };
     await paypal.payment.create(create_payment_json, function(error, payment) {
@@ -373,6 +375,7 @@ async function handlePayment(req, res, next) {
         try {
             for (let i = 0; i < payment.links.length; i++) {
                 if (payment.links[i].rel === 'approval_url') {
+                    console.log('payment.links[i].href>>',payment.links[i].href);
                     res.redirect(payment.links[i].href);
                 }
             }
