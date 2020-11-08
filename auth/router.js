@@ -336,6 +336,11 @@ paypal.configure({
 });
 async function handlePayment(req, res, next) {
     console.log("handlePayment called in backend");
+    console.log('req.body',req.body);
+
+    console.log('usedId',req.body.userId);
+
+
 
 
 
@@ -404,9 +409,11 @@ async function handleSuccess(req, res, next) {
                 amount: payment.transactions[0].amount.total,
                 currency: payment.transactions[0].amount.currency
             }
+            
 
             payments.create(obj).then(result => {
                 console.log(result);
+
                 res.send('Success');
             });
         }
