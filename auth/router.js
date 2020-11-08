@@ -41,14 +41,10 @@ router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
 router.post('/api/v1/:model/comments/add/:postId', barerAuth, handleAddComment);
 
 // routes to handle payments
-router.post('/pay',logHandlePayment ,handlePayment);
-
-function logHandlePayment(){
-    console.log('logHandlePayment called');
-}
+router.post('/pay',handlePayment);
 router.get('/success', handleSuccess);
 router.get('/cancel', (req, res) => res.send('Cancelled'));
-router.get('/pay', getPayments);
+// router.get('/pay', getPayments);
 // routes to handle admin approvals
 // delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
 // send in the req the bearer token after signin  ////:id is the id of the post
@@ -338,104 +334,104 @@ paypal.configure({
         'custom': 'header'
     }
 });
-// async function handlePayment(req, res, next) {
+async function handlePayment(req, res, next) {
    
 
     // console.log('usedId',req.body.userId);
     // let userId=req.body.userId;
 
 
-//    const create_payment_json = {
-//         "intent": "sale",
-//         "payer": {
-//             "payment_method": "paypal"
-//         },
-//         "redirect_urls": {
-//             "return_url": process.env.SUCCESS_URL,
-//             "cancel_url": process.env.CANCEL_URL,
-//         },
-//         "transactions": [{
-//             "item_list": {
-//                 "items": [{
-//                     "price": "25.00",
-//                     "currency": "USD",
-//                 }]
-//             },
-//             "amount": {
-//                 "currency": "USD",
-//                 "total": "25.00"
-//             },
-//             "description": "Hat for the best team ever",
-//             "userName":"Ahmad Alhrthani",
-//         }]
-//     };
-//     await paypal.payment.create(create_payment_json, function (error, payment) {
-//         console.log("handlePayment called in backend");
-//         console.log('payment createeeee called');
+   const create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": process.env.SUCCESS_URL,
+            "cancel_url": process.env.CANCEL_URL,
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "price": "25.00",
+                    "currency": "USD",
+                }]
+            },
+            "amount": {
+                "currency": "USD",
+                "total": "25.00"
+            },
+            "description": "Hat for the best team ever",
+            "userName":"Ahmad Alhrthani",
+        }]
+    };
+    await paypal.payment.create(create_payment_json, function (error, payment) {
+        // console.log("handlePayment called in backend");
+        // console.log('payment createeeee called');
 
-//         try {
-//             for (let i = 0; i < payment.links.length; i++) {
-//                 if (payment.links[i].rel === 'approval_url') {
-//                     console.log('payment.links[i].href>>', payment.links[i].href);
-//                     res.redirect(payment.links[i].href);
-//                 }
-//             }
-//         } catch (error) {
-//             console.log("create payment error>>>", error);
-//         }
-//         // res.send("test");
-//     });
-// }
-// async function handleSuccess(req, res, next) {
-//     console.log('success calledddddd');
+        try {
+            for (let i = 0; i < payment.links.length; i++) {
+                if (payment.links[i].rel === 'approval_url') {
+                    // console.log('payment.links[i].href>>', payment.links[i].href);
+                    res.redirect(payment.links[i].href);
+                }
+            }
+        } catch (error) {
+            // console.log("create payment error>>>", error);
+        }
+        // res.send("test");
+    });
+}
+async function handleSuccess(req, res, next) {
+    // console.log('success calledddddd');
  
 
 
-//     const payerId = req.query.PayerID;
-//     const paymentId = req.query.paymentId;
-//     const execute_payment_json = {
-//         "payer_id": payerId,
-//         "transactions": [{
-//             "amount": {
-//                 "currency": "USD",
-//                 "total": "25.00"
-//             }
-//         }]
-//     };
-//     await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-//         console.log('execute called');
-//         console.log('req.body');
-//         console.log('req.body',req.body);
-//         if (error) {
-//             console.log(error.response);
-//             throw error;
-//         } else {
-//             console.log(JSON.stringify(payment));
-//             let obj = {
-//                 userId: payment.transactions[0].payee.merchant_id,
-//                 date: payment.create_time,
-//                 donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
-//                 amount: payment.transactions[0].amount.total,
-//                 currency: payment.transactions[0].amount.currency
-//             }
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+    const execute_payment_json = {
+        "payer_id": payerId,
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": "25.00"
+            }
+        }]
+    };
+    await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+        // console.log('execute called');
+        // console.log('req.body');
+        // console.log('req.body',req.body);
+        if (error) {
+            // console.log(error.response);
+            throw error;
+        } else {
+            // console.log(JSON.stringify(payment));
+            let obj = {
+                userId: payment.transactions[0].payee.merchant_id,
+                date: payment.create_time,
+                donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
+                amount: payment.transactions[0].amount.total,
+                currency: payment.transactions[0].amount.currency
+            }
 
 
-//             payments.create(obj).then(result => {
-//                 console.log(result);
+            payments.create(obj).then(result => {
+                // console.log(result);
 
-//                 res.send('Success');
-//             });
-//         }
-//     });
-// }
-
-function getPayments(req, res, next) {
-    payments.get().then(results => {
-        console.log(results);
-        let count = results.length;
-        res.json({ count, results });
+                res.send('Success');
+            });
+        }
     });
 }
+
+// function getPayments(req, res, next) {
+//     payments.get().then(results => {
+//         console.log(results);
+//         let count = results.length;
+//         res.json({ count, results });
+//     });
+// }
 
 function handleEditSComment(req, res) {
     // console.log('params id>>>', req.params.id);
