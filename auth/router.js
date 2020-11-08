@@ -346,34 +346,30 @@ async function handlePayment(req, res, next) {
     // let userId=req.body.userId;
 
 
-
-
-
-
-    const create_payment_json = {
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal"
-        },
-        "redirect_urls": {
-            "return_url": process.env.SUCCESS_URL,
-            "cancel_url": process.env.CANCEL_URL,
-        },
-        "transactions": [{
-            "item_list": {
-                "items": [{
-                    "price": "25.00",
-                    "currency": "USD",
-                }]
-            },
-            "amount": {
-                "currency": "USD",
-                "total": "25.00"
-            },
-            "description": "Hat for the best team ever",
-            "userName":"Ahmad Alhrthani",
-        }]
-    };
+//    const create_payment_json = {
+//         "intent": "sale",
+//         "payer": {
+//             "payment_method": "paypal"
+//         },
+//         "redirect_urls": {
+//             "return_url": process.env.SUCCESS_URL,
+//             "cancel_url": process.env.CANCEL_URL,
+//         },
+//         "transactions": [{
+//             "item_list": {
+//                 "items": [{
+//                     "price": "25.00",
+//                     "currency": "USD",
+//                 }]
+//             },
+//             "amount": {
+//                 "currency": "USD",
+//                 "total": "25.00"
+//             },
+//             "description": "Hat for the best team ever",
+//             "userName":"Ahmad Alhrthani",
+//         }]
+//     };
     await paypal.payment.create(create_payment_json, function (error, payment) {
         console.log('payment create called');
         try {
