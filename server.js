@@ -41,8 +41,12 @@ function handlePayment(req, res, next) {
     console.log("handlePayment called");
     amount = req.body.amount;
     inNeedEmail = req.body.email;
+    inNeedUserId = req.body.userId;
+
     console.log({ amount });
     console.log({ inNeedEmail });
+    console.log({ inNeedUserId });
+
     const create_payment_json = {
         "intent": "sale",
         "payer": {
