@@ -338,7 +338,7 @@ paypal.configure({
         'custom': 'header'
     }
 });
-async function handlePayment(req, res, next) {
+// async function handlePayment(req, res, next) {
    
 
     // console.log('usedId',req.body.userId);
@@ -369,65 +369,65 @@ async function handlePayment(req, res, next) {
 //             "userName":"Ahmad Alhrthani",
 //         }]
 //     };
-    await paypal.payment.create(create_payment_json, function (error, payment) {
-        console.log("handlePayment called in backend");
-        console.log('payment createeeee called');
+//     await paypal.payment.create(create_payment_json, function (error, payment) {
+//         console.log("handlePayment called in backend");
+//         console.log('payment createeeee called');
 
-        try {
-            for (let i = 0; i < payment.links.length; i++) {
-                if (payment.links[i].rel === 'approval_url') {
-                    console.log('payment.links[i].href>>', payment.links[i].href);
-                    res.redirect(payment.links[i].href);
-                }
-            }
-        } catch (error) {
-            console.log("create payment error>>>", error);
-        }
-        // res.send("test");
-    });
-}
-async function handleSuccess(req, res, next) {
-    console.log('success calledddddd');
+//         try {
+//             for (let i = 0; i < payment.links.length; i++) {
+//                 if (payment.links[i].rel === 'approval_url') {
+//                     console.log('payment.links[i].href>>', payment.links[i].href);
+//                     res.redirect(payment.links[i].href);
+//                 }
+//             }
+//         } catch (error) {
+//             console.log("create payment error>>>", error);
+//         }
+//         // res.send("test");
+//     });
+// }
+// async function handleSuccess(req, res, next) {
+//     console.log('success calledddddd');
  
 
 
-    const payerId = req.query.PayerID;
-    const paymentId = req.query.paymentId;
-    const execute_payment_json = {
-        "payer_id": payerId,
-        "transactions": [{
-            "amount": {
-                "currency": "USD",
-                "total": "25.00"
-            }
-        }]
-    };
-    await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-        console.log('execute called');
-        console.log('req.body');
-        console.log('req.body',req.body);
-        if (error) {
-            console.log(error.response);
-            throw error;
-        } else {
-            console.log(JSON.stringify(payment));
-            let obj = {
-                userId: payment.transactions[0].payee.merchant_id,
-                date: payment.create_time,
-                donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
-                amount: payment.transactions[0].amount.total,
-                currency: payment.transactions[0].amount.currency
-            }
+//     const payerId = req.query.PayerID;
+//     const paymentId = req.query.paymentId;
+//     const execute_payment_json = {
+//         "payer_id": payerId,
+//         "transactions": [{
+//             "amount": {
+//                 "currency": "USD",
+//                 "total": "25.00"
+//             }
+//         }]
+//     };
+//     await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+//         console.log('execute called');
+//         console.log('req.body');
+//         console.log('req.body',req.body);
+//         if (error) {
+//             console.log(error.response);
+//             throw error;
+//         } else {
+//             console.log(JSON.stringify(payment));
+//             let obj = {
+//                 userId: payment.transactions[0].payee.merchant_id,
+//                 date: payment.create_time,
+//                 donorName: payment.payer.first_name + ' ' + payment.payer.last_name,
+//                 amount: payment.transactions[0].amount.total,
+//                 currency: payment.transactions[0].amount.currency
+//             }
 
 
-            payments.create(obj).then(result => {
-                console.log(result);
+//             payments.create(obj).then(result => {
+//                 console.log(result);
 
-                res.send('Success');
-            });
-        }
-    });
-}
+//                 res.send('Success');
+//             });
+//         }
+//     });
+// }
 
 function getPayments(req, res, next) {
     payments.get().then(results => {
