@@ -79,7 +79,7 @@ function handlePayment(req, res, next) {
         try {
             for (let i = 0; i < payment.links.length; i++) {
                 if (payment.links[i].rel === 'approval_url') {
-                    res.redirect(payment.links[i].href);
+                    res.redirect(payment.links[i].href+"?userId="+userId);
                 }
             }
         } catch (error) {
@@ -90,6 +90,10 @@ function handlePayment(req, res, next) {
 }
 function handleSuccess(req, res, next) {
     console.log('success called');
+    const userId=req.query.userId;
+    console.log('userId in success>>>   ',userId);
+
+    
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     const execute_payment_json = {
