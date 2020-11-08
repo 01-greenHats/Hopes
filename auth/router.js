@@ -169,7 +169,7 @@ function handlePostItem(req, res, next) {
 function handleAddPostItem(req, res, next) {
 
     console.log('start handleAddPostItem');
-
+    req.body.author = req.userId;
     // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
@@ -357,15 +357,15 @@ async function handlePayment(req, res, next) {
         "transactions": [{
             "item_list": {
                 "items": [{
-                    "price": amount,
+                    "price": "25.00",
                     "currency": "USD",
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": amount
+                "total": "25.00"
             },
-            "description": ""
+            "description": "Hat for the best team ever"
         }]
     };
     await paypal.payment.create(create_payment_json, function(error, payment) {
@@ -465,5 +465,3 @@ function handleEditPost(req,res){
 
 }
 module.exports = router;
-
-
