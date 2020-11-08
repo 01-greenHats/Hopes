@@ -79,7 +79,7 @@ function handlePayment(req, res, next) {
         try {
             for (let i = 0; i < payment.links.length; i++) {
                 if (payment.links[i].rel === 'approval_url') {
-                    res.redirect(payment.links[i].href+"?userId="+userId);
+                    res.redirect(payment.links[i].href+"?userId="+inNeedUserId);
                 }
             }
         } catch (error) {
