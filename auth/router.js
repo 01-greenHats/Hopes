@@ -221,7 +221,8 @@ function handleSignUp(req, res, next) {
     console.log('req.body>>>',req.body);
 
     req.model.create(req.body).then(result => {
-        res.json(req.jwt);
+        console.log('result>>',result);
+        res.json({token:req.jwt,addedUser:result});
     }).catch(next);
 }
 
@@ -235,7 +236,7 @@ function handleSignIn(req, res) {
         res.set('token', req.basicAuth.token);
         // console.log('this is token in res : ',res.token);
         // send json object with token and user record
-        res.status(200).json(req.basicAuth);
+        res.status(200).json({token:req.basicAuth,loggedUser:req.userObject});
     } else {
         res.status(403).send("invaled login");
     }
@@ -334,7 +335,11 @@ paypal.configure({
     }
 });
 async function handlePayment(req, res, next) {
-    console.log("handlePayment called");
+    console.log("handlePayment called in backend");
+
+
+
+
     const create_payment_json = {
         "intent": "sale",
         "payer": {
