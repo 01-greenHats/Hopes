@@ -42,13 +42,13 @@ let amount = "";
 let userId="";
 function handlePayment(req, res, next) {
     console.log("handlePayment called");
-    let amount = req.body.amount;
-    let inNeedEmail = req.body.email;
-    let inNeedUserId = req.body.userId;
+    amount = req.body.amount;
+    inNeedEmail = req.body.email;
+    userId = req.body.userId;
 
     console.log({ amount });
     console.log({ inNeedEmail });
-    console.log({ inNeedUserId });
+    console.log({ userId });
 
     const create_payment_json = {
         "intent": "sale",
@@ -92,10 +92,7 @@ function handlePayment(req, res, next) {
 }
    
 function handleSuccess(req, res, next) {
-    console.log('success called');
-    console.log('query>>',req.query);
-
-   
+    console.log('success called');  
 
     
     const payerId = req.query.PayerID;
