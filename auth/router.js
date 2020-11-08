@@ -372,7 +372,7 @@ async function handlePayment(req, res, next) {
     await paypal.payment.create(create_payment_json, function (error, payment) {
         console.log("handlePayment called in backend");
         console.log('req.body',req.body);
-        console.log('payment create called');
+        console.log('payment createeeee called');
 
         try {
             for (let i = 0; i < payment.links.length; i++) {
