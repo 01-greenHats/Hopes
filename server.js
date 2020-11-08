@@ -27,8 +27,6 @@ app.get('/', (req, res) => res.render('index'));
 app.post('/pay', handlePayment);
 app.get('/success', handleSuccess);
 app.get('/cancel', (req, res) => res.send('Cancelled'));
-app.get('/pay', getPayments);
-
 // paypal configuration 
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
@@ -133,14 +131,6 @@ function handleSuccess(req, res, next) {
             });
             // res.send('Success');
         }
-    });
-}
-
-function getPayments(req, res, next) {
-    payments.get().then(results => {
-        console.log(results);
-        let count = results.length;
-        res.json({ count, results });
     });
 }
 //-----------------------------------------------------------
