@@ -79,7 +79,7 @@ function handlePayment(req, res, next) {
         try {
             for (let i = 0; i < payment.links.length; i++) {
                 if (payment.links[i].rel === 'approval_url') {
-                    res.redirect(payment.links[i].href+"?userId="+inNeedUserId);
+                    res.redirect(payment.links[i].href);
                 }
             }
         } catch (error) {
@@ -88,10 +88,10 @@ function handlePayment(req, res, next) {
         // res.send("test");
     });
 }
+var userId='';    
 function handleSuccess(req, res, next) {
     console.log('success called');
-    const userId=req.query.userId;
-    console.log('userId in success>>>   ',userId);
+   
 
     
     const payerId = req.query.PayerID;
@@ -122,7 +122,7 @@ function handleSuccess(req, res, next) {
             sendMail(mailOptions);
             console.log(JSON.stringify(payment));
             let obj = {
-                userId: payment.transactions[0].payee.merchant_id,
+                userId: userId,
                 date: payment.create_time,
                 donorName: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name,
                 amount: payment.transactions[0].amount.total,
