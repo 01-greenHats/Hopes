@@ -334,7 +334,16 @@ paypal.configure({
     }
 });
 async function handlePayment(req, res, next) {
-    console.log("handlePayment called");
+    console.log("handlePayment called in backend");
+    let userId=req.body._id;
+    let userId=req.body.amount;
+    let userEmail=req.body.email;
+    console.log('userId>>>',userId);
+    console.log('userId>>>',userId);
+    console.log('userEmail>>>',userEmail);
+
+
+
     const create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -347,15 +356,15 @@ async function handlePayment(req, res, next) {
         "transactions": [{
             "item_list": {
                 "items": [{
-                    "price": "25.00",
+                    "price": amount,
                     "currency": "USD",
                 }]
             },
             "amount": {
                 "currency": "USD",
-                "total": "25.00"
+                "total": amount
             },
-            "description": "Hat for the best team ever"
+            "description": ""
         }]
     };
     await paypal.payment.create(create_payment_json, function(error, payment) {
@@ -453,3 +462,5 @@ function handleEditPost(req,res){
 
 }
 module.exports = router;
+
+
