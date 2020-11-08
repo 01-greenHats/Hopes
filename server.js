@@ -91,6 +91,8 @@ function handlePayment(req, res, next) {
 var userId='';    
 function handleSuccess(req, res, next) {
     console.log('success called');
+    console.log('query>>',req.query);
+
    
 
     
