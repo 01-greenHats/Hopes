@@ -387,9 +387,8 @@ async function handlePayment(req, res, next) {
     });
 }
 async function handleSuccess(req, res, next) {
-    console.log('success called');
-    console.log('req.body');
-    console.log('req.body',req.body);
+    console.log('success calledddddd');
+ 
 
 
     const payerId = req.query.PayerID;
@@ -405,6 +404,8 @@ async function handleSuccess(req, res, next) {
     };
     await paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
         console.log('execute called');
+        console.log('req.body');
+        console.log('req.body',req.body);
         if (error) {
             console.log(error.response);
             throw error;
