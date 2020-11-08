@@ -25,8 +25,6 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.render('index'));
 // routes to handle payments
 app.post('/pay', handlePayment);
-router.get('/pay', getPayments);
-
 app.get('/success', handleSuccess);
 app.get('/cancel', (req, res) => res.send('Cancelled'));
 // paypal configuration 
@@ -43,13 +41,8 @@ function handlePayment(req, res, next) {
     console.log("handlePayment called");
     amount = req.body.amount;
     inNeedEmail = req.body.email;
-    inNeeduserId = req.body.userId;
-    userId
-
     console.log({ amount });
     console.log({ inNeedEmail });
-    console.log({ inNeeduserId });
-
     const create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -134,16 +127,6 @@ function handleSuccess(req, res, next) {
         }
     });
 }
-
-function getPayments(req, res, next) {
-    payments.get().then(results => {
-        console.log(results);
-        let count = results.length;
-        res.json({ count, results });
-    });
-}
-
-
 //-----------------------------------------------------------
 app.use(cors());
 app.use(morgan('dev'));
