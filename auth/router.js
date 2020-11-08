@@ -41,10 +41,10 @@ router.post('/api/v1/:model/posts/add', barerAuth, handleAddPostItem);
 router.post('/api/v1/:model/comments/add/:postId', barerAuth, handleAddComment);
 
 // routes to handle payments
-// router.post('/pay', handlePayment);
-// router.get('/success', handleSuccess);
-// router.get('/cancel', (req, res) => res.send('Cancelled'));
-// router.get('/pay', getPayments);
+router.post('/pay', handlePayment);
+router.get('/success', handleSuccess);
+router.get('/cancel', (req, res) => res.send('Cancelled'));
+router.get('/pay', getPayments);
 // routes to handle admin approvals
 // delete posts /api/v1/users/posts/delete/:id or /api/v1/users/posts/delete/:id //model required for baerer middleware
 // send in the req the bearer token after signin  ////:id is the id of the post
