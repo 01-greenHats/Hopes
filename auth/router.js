@@ -19,6 +19,8 @@ const { post } = require('superagent');
 
 //routes
 router.get('/api/v1/getAllPosts', handleGetAllPosts);
+// get All posts by Author Id :
+router.get('/api/v1/:model/getAllPostsByAuthor',barerAuth, handleGetAllPostsByAuthor);
 router.get('/api/v1/payments/:userId', handleGetPaymentsForOneUser);
 
 
@@ -58,6 +60,8 @@ router.patch('/api/v1/:model/comments/edit/:id/:commentId', barerAuth, deleteAut
 
 // edit post 
 router.patch('/api/v1/:model/posts/edit/:id', barerAuth, deleteAuth, handleEditPost);
+
+
 
 
 
@@ -106,7 +110,19 @@ function getModel(req, res, next) {
     }
 }
 
-
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+function handleGetAllPostsByAuthor(req, res, next) {
+    let id = req.userId;
+    posts.getAllPosts({author : id}).then(results => {
+        let count = results.length;
+        res.json({ count, results });
+    });
+}
 /**
  * 
  * @param {request} req 
