@@ -11,8 +11,7 @@ const payments = require('./auth/lib/payments/payments-collection');
 require('dotenv').config();
 var bodyParser = require('body-parser')
 
-let inNeedEmail = 'hertani86@gmail.com';
-let amount = "150.00";
+
 const routes = require('./auth/router');
 const error404 = require('./middleware/404.js');
 const error500 = require('./middleware/500.js');
@@ -38,12 +37,19 @@ paypal.configure({
     }
 });
 // ======================================= handeling payments functions :
+let inNeedEmail = "";
+let amount = "";
+let userId="";
 function handlePayment(req, res, next) {
     console.log("handlePayment called");
     amount = req.body.amount;
     inNeedEmail = req.body.email;
+    userId = req.body.userId;
+
     console.log({ amount });
     console.log({ inNeedEmail });
+    console.log({ userId });
+
     const create_payment_json = {
         "intent": "sale",
         "payer": {
@@ -84,8 +90,11 @@ function handlePayment(req, res, next) {
         // res.send("test");
     });
 }
+   
 function handleSuccess(req, res, next) {
-    console.log('success called');
+    console.log('success called');  
+
+    
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
     const execute_payment_json = {
@@ -114,7 +123,7 @@ function handleSuccess(req, res, next) {
             sendMail(mailOptions);
             console.log(JSON.stringify(payment));
             let obj = {
-                userId: payment.transactions[0].payee.merchant_id,
+                userId: userId,
                 date: payment.create_time,
                 donorName: payment.payer.payer_info.first_name + ' ' + payment.payer.payer_info.last_name,
                 amount: payment.transactions[0].amount.total,
