@@ -141,10 +141,9 @@ function handleSuccess(req, res, next) {
             }
             payments.create(obj).then(result => {
                 console.log(result);
-                res.redirect('api/v1/user_payments/'+userId);
 
-                
-                // res.send('Success');
+                res.redirect('https://01-greenhats.github.io/HopesFEnd');
+//                 res.send('Success');
             });
             // res.send('Success');
         }

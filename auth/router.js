@@ -19,16 +19,26 @@ const { post } = require('superagent');
 
 //routes
 router.get('/api/v1/getAllPosts', handleGetAllPosts);
+// add fav user to a donor
+router.put('/api/v1/:model/addToFav',barerAuth,handleaddToFav);
+// delete fav user to a donor
+router.delete('/api/v1/:model/deleteFromFav',barerAuth,handleDeleteFromFav);
+// get All fav users of one donor
+router.get('/api/v1/:model/getDonorFavList',barerAuth,handleGetDonorFavList);
 // get All posts by Author Id :
 router.get('/api/v1/:model/getAllPostsByAuthor',barerAuth, handleGetAllPostsByAuthor);
+// get All posts for one author :
 router.get('/api/v1/payments/:userId', handleGetPaymentsForOneUser);
-
+// get one user's data
+router.get('/api/v1/:model/getOneUser',barerAuth, handleGetOneUser);
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
+// registration routes :
 router.post('/api/v1/:model/signin', basicAuth, handleSignIn);
 router.post('/api/v1/:model/signup', signUpMidd, handleSignUp);
 router.get('/api/v1/donor/oauth', oauth, handleSignIn);
+
 router.put('/api/v1/:model/:id', handlePutItem);
 router.patch('/api/v1/:model/:id', handlePutItem);
 router.delete('/api/v1/:model/:id', handleDeleteItem);
@@ -108,6 +118,78 @@ function getModel(req, res, next) {
             next('Invalid Model!!! ');
             break;
     }
+}
+/**
+ * to get only one user data
+ * needs bearer auth only
+ * @param {*} req 
+ * @param {*} res 
+ */
+function handleGetOneUser(req, res) {
+    let _id = req.userId;
+    console.log({ _id });
+    users.getOne({ _id }).then(result =>{
+    console.log('handleaddToFav called',result);       
+        res.json(result)
+    // }
+    })
+}
+/**
+ * to push new user to the favorit users list for a donor
+ * needs bearer auth only
+ * @param {*} req 
+ * @param {*} res 
+ */
+function handleDeleteFromFav(req, res) {
+    let _id = req.userId;
+    console.log({ _id });
+    donors.getOne({ _id }).then(result =>{
+    console.log('handleaddToFav called',result);
+    // if(result.favUsers.includes(req.body.favUsers)){
+        // if the givin Id is already exist
+        // res.json({Error: 'already exist'})
+    // }else{        
+        donors.updateOne({ _id },{ $pull: { favUsers: req.body.favUsers } }).then(donor =>{
+            res.json(donor)
+        });
+    // }
+    })
+}
+/**
+ * to push new user to the favorit users list for a donor
+ * needs bearer auth only
+ * @param {*} req 
+ * @param {*} res 
+ */
+function handleaddToFav(req, res) {
+    let _id = req.userId;
+    console.log({ _id });
+    donors.getOne({ _id }).then(result =>{
+    console.log('handleaddToFav called',result);
+    if(result.favUsers.includes(req.body.favUsers)){
+        // if the givin Id is already exist
+        res.json({Error: 'already exist'})
+    }else{        
+        donors.updateOne({ _id },{ $push: { favUsers: req.body.favUsers } }).then(donor =>{
+            res.json(donor)
+        });
+    }
+    })
+}
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @param {next} next 
+ */
+function handleGetDonorFavList(req, res, next) {
+    let _id = req.userId;
+    console.log('Donor ID : ',_id)
+    donors.getAllUsersByDonorId({ _id }).then(results => {
+        let count = results.length;
+        res.json({ count, results });
+        // res.json({DonorID : req.params});
+    });
 }
 
 /**

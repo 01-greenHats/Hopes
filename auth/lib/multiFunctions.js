@@ -5,11 +5,13 @@ require('dotenv').config();
 // this class includes some functions that we used more than once
 //username:pass
 class MultiFunctions {
-    getToken(userObj) { // expires after half and hour (900 seconds = 15 minutes)
+    getToken(userObj,userType) { // expires after half and hour (900 seconds = 15 minutes)
         console.log('hhhhhhhhhhhhhhhhhh userObj', userObj);
+        console.log('the user type is : ',userType)
         return jwt.sign({
             name: userObj.name,
-            nationalNo: userObj.nationalNo || '123'
+            nationalNo: userObj.nationalNo || '123',
+            userType : userType
         }, process.env.TOKEN_SECRET);
   //  }, process.env.TOKEN_SECRET, {expiresIn: '4500s'});
 
