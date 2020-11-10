@@ -34,16 +34,27 @@ class Model {
         // console.log('----------',this.schema);
         // return this.schema.findOne(obj);
     }
+    // get all fav users for one donor
+    getAllUsersByDonorId(obj) {
+
+        return this.schema.find(obj).populate('favUsers');
+        // console.log('----------',this.schema);
+        // return this.schema.findOne(obj);
+    }
 
 
     update(_id, record) {
         return this.schema.findByIdAndUpdate(_id, record, {new: true});
+    }
+    updateOne(_id, record) {
+        return this.schema.findOneAndUpdate(_id, record, {new: true, upsert: true});
     }
 
 
     delete(_id) {
         return this.schema.findByIdAndDelete(_id);
     }
+    
 }
 
 module.exports = Model;
