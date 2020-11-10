@@ -130,7 +130,6 @@ function handleSuccess(req, res, next) {
                 Hopes team`
 
             };
-            sendMail(mailOptions);
             console.log(JSON.stringify(payment));
             let obj = {
                 userId: userId,
@@ -140,6 +139,8 @@ function handleSuccess(req, res, next) {
                 currency: payment.transactions[0].amount.currency
             }
             payments.create(obj).then(result => {
+                sendMail(mailOptions);
+
                 console.log(result);
 
 //                 res.redirect('https://01-greenhats.github.io/HopesFEnd');
