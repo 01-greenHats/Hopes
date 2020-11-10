@@ -12,7 +12,7 @@ try {
         if(result){
             next('already exist');
         }
-        req.jwt = multiFunctions.getToken(req.body)
+        req.jwt = multiFunctions.getToken(req.body,req.params.model)
         // console.log(req.body);
          multiFunctions.hash(req.body.password).then(hashedPass=>{
             req.body.password = hashedPass
