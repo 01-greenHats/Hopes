@@ -140,8 +140,9 @@ function handleSuccess(req, res, next) {
             }
             payments.create(obj).then(result => {
                 sendMail(mailOptions);
+                console.log('payment final result',result);
 
-                console.log(result);
+
 
 //                 res.redirect('https://01-greenhats.github.io/HopesFEnd');
                 res.send('Success');
