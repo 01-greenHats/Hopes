@@ -29,6 +29,8 @@ router.get('/api/v1/:model/getDonorFavList',barerAuth,handleGetDonorFavList);
 router.get('/api/v1/:model/getAllPostsByAuthor',barerAuth, handleGetAllPostsByAuthor);
 // get All posts for one author :
 router.get('/api/v1/payments/:userId', handleGetPaymentsForOneUser);
+// get one user's data
+router.get('/api/v1/:model/getOneUser/:userId',barerAuth, handleGetOneUser);
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
@@ -117,7 +119,21 @@ function getModel(req, res, next) {
             break;
     }
 }
-// handleDeleteFromFav
+/**
+ * to get only one user data
+ * needs bearer auth only
+ * @param {*} req 
+ * @param {*} res 
+ */
+function handleGetOneUser(req, res) {
+    let _id = req.userId;
+    console.log({ _id });
+    users.getOne({ _id }).then(result =>{
+    console.log('handleaddToFav called',result);       
+        res.json(result)
+    // }
+    })
+}
 /**
  * to push new user to the favorit users list for a donor
  * needs bearer auth only
