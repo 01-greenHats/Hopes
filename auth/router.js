@@ -21,6 +21,8 @@ const { post } = require('superagent');
 router.get('/api/v1/getAllPosts', handleGetAllPosts);
 // add fav user to a donor
 router.put('/api/v1/:model/addToFav',barerAuth,handleaddToFav);
+// delete fav user to a donor
+router.delete('/api/v1/:model/deleteFromFav',barerAuth,handleDeleteFromFav);
 // get All fav users of one donor
 router.get('/api/v1/:model/getDonorFavList',barerAuth,handleGetDonorFavList);
 // get All posts by Author Id :
@@ -114,6 +116,28 @@ function getModel(req, res, next) {
             next('Invalid Model!!! ');
             break;
     }
+}
+// handleDeleteFromFav
+/**
+ * to push new user to the favorit users list for a donor
+ * needs bearer auth only
+ * @param {*} req 
+ * @param {*} res 
+ */
+function handleDeleteFromFav(req, res) {
+    let _id = req.userId;
+    console.log({ _id });
+    donors.getOne({ _id }).then(result =>{
+    console.log('handleaddToFav called',result);
+    // if(result.favUsers.includes(req.body.favUsers)){
+        // if the givin Id is already exist
+        // res.json({Error: 'already exist'})
+    // }else{        
+        donors.updateOne({ _id },{ $pull: { favUsers: req.body.favUsers } }).then(donor =>{
+            res.json(donor)
+        });
+    // }
+    })
 }
 /**
  * to push new user to the favorit users list for a donor
