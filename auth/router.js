@@ -30,7 +30,7 @@ router.get('/api/v1/:model/getAllPostsByAuthor',barerAuth, handleGetAllPostsByAu
 // get All posts for one author :
 router.get('/api/v1/payments/:userId', handleGetPaymentsForOneUser);
 // get one user's data
-router.get('/api/v1/:model/getOneUser/:userId',barerAuth, handleGetOneUser);
+router.get('/api/v1/:model/getOneUser',barerAuth, handleGetOneUser);
 
 router.get('/api/v1/:model', handleGetAllItems);
 router.post('/api/v1/:model', handlePostItem);
