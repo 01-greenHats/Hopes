@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
                     if (!validUser) {
                         return next('Wrong Useranem or Password');
                     }
-                    let token = multiFunctions.getToken(userObj);
+                    let token = multiFunctions.getToken(userObj,req.params.model);
                     // console.log('token >>>>>>>', token);
                     if (token) {
                         req.basicAuth = {
