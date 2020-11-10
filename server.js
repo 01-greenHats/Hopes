@@ -40,15 +40,21 @@ paypal.configure({
 let inNeedEmail = "";
 let amount = "";
 let userId="";
+let userName="";
+
 function handlePayment(req, res, next) {
     console.log("handlePayment called");
     amount = req.body.amount;
     inNeedEmail = req.body.email;
     userId = req.body.userId;
+    userName = req.body.userName;
+
 
     console.log({ amount });
     console.log({ inNeedEmail });
     console.log({ userId });
+    console.log({ userName });
+
 
     const create_payment_json = {
         "intent": "sale",
@@ -115,10 +121,14 @@ function handleSuccess(req, res, next) {
             var mailOptions = {
                 from: 'hopegaza12@gmail.com',
                 to: inNeedEmail,
-                subject: 'you hava a donation',
-                text: `you have received a donate
-                 from ${payment.payer.payer_info.first_name} ${payment.payer.payer_info.last_name}, 
-                 with the amount of ${payment.transactions[0].amount.total} ${payment.transactions[0].amount.currency}`
+                subject: 'You received donation',
+                text: `Dear ${userName}.
+                We want to inform you that you have received a donation
+                from ${payment.payer.payer_info.first_name} ${payment.payer.payer_info.last_name},
+                with the amount of ${payment.transactions[0].amount.total} ${payment.transactions[0].amount.currency}.\
+                We hope that this donation will make your life better.
+                Hopes team`
+
             };
             sendMail(mailOptions);
             console.log(JSON.stringify(payment));
@@ -131,6 +141,7 @@ function handleSuccess(req, res, next) {
             }
             payments.create(obj).then(result => {
                 console.log(result);
+
                 res.redirect('https://01-greenhats.github.io/HopesFEnd');
 //                 res.send('Success');
             });
