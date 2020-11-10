@@ -131,7 +131,7 @@ function handleSuccess(req, res, next) {
             }
             payments.create(obj).then(result => {
                 console.log(result);
-                res.redirect('localhost:3000/user_payments/'+userId);
+                res.redirect('https://01-greenhats.github.io/user_payments/'+userId);
 
 //                 res.send('Success');
             });
