@@ -19,6 +19,7 @@ var transporter = nodemailer.createTransport({
 async function sendEmail(mailOptions) {
     await transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
+            console.log('Error while trying to send email');
             console.log(error);
         } else {
             console.log('Email sent: ' + info.response);
