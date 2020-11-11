@@ -10,6 +10,8 @@ class MultiFunctions {
         console.log('the user type is : ',userType)
         return jwt.sign({
             name: userObj.name,
+            imgURL: userObj.imgURL,
+            userId: userObj._id,
             nationalNo: userObj.nationalNo || '123',
             userType : userType
         }, process.env.TOKEN_SECRET);
