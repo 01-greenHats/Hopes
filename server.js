@@ -144,8 +144,8 @@ function handleSuccess(req, res, next) {
 
 
 
-//                 res.redirect('https://01-greenhats.github.io/HopesFEnd');
-                res.send('Success');
+                res.redirect('thanks');
+                // res.send('Success');
             });
             // res.send('Success');
         }
