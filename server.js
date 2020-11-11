@@ -142,10 +142,11 @@ function handleSuccess(req, res, next) {
                 console.log('payment final result',result);
 
 
-                   res.render('index');
+//                 res.render('index');
+                   res.render('thanks');
+
                    sendMail(mailOptions);
 
-//                 res.render('thanks');
 //                 res.redirect('/');
                 // res.send('Success');
             });
