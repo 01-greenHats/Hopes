@@ -268,7 +268,7 @@ function handlePostItem(req, res, next) {
 function handleAddPostItem(req, res, next) {
 
     console.log('start handleAddPostItem');
-    req.body.author = req.userId;
+    // req.body.author = req.userId;
     // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
