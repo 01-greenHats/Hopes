@@ -144,7 +144,7 @@ function handleSuccess(req, res, next) {
 
 
 
-                res.redirect('thanks');
+                res.render('thanks');
                 // res.send('Success');
             });
             // res.send('Success');
