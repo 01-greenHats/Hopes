@@ -139,13 +139,14 @@ function handleSuccess(req, res, next) {
                 currency: payment.transactions[0].amount.currency
             }
             payments.create(obj).then(result => {
-                sendMail(mailOptions);
                 console.log('payment final result',result);
 
 
+                   res.render('index');
+                   sendMail(mailOptions);
 
 //                 res.render('thanks');
-                res.redirect('/');
+//                 res.redirect('/');
                 // res.send('Success');
             });
             // res.send('Success');
