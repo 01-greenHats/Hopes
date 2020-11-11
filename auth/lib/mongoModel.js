@@ -30,7 +30,7 @@ class Model {
 
     getAllPosts(obj) {
 
-        return this.schema.find(obj).populate('author');
+        return this.schema.find(obj);
         // console.log('----------',this.schema);
         // return this.schema.findOne(obj);
     }
