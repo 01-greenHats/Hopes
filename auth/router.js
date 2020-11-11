@@ -199,8 +199,9 @@ function handleGetDonorFavList(req, res, next) {
  * @param {next} next 
  */
 function handleGetAllPostsByAuthor(req, res, next) {
-    let id = req.userId;
-    posts.getAllPosts({author : id}).then(results => {
+
+    let name = req.name;
+    posts.getAllPosts({author : name}).then(results => {
         let count = results.length;
         res.json({ count, results });
     });
@@ -268,7 +269,7 @@ function handlePostItem(req, res, next) {
 function handleAddPostItem(req, res, next) {
 
     console.log('start handleAddPostItem');
-    // req.body.author = req.userId;
+    req.body.author = req.name;
     // console.log('>>',req);
     posts.create(req.body).then(result => {
         res.json(result);
